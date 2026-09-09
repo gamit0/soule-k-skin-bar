@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+/*
+  Soule K Skin Bar — design tokens
+  Paleta pensada para sentirse skincare-premium con un guiño sutil a "cocktail",
+  sin caer en estética de bar de alcohol ni en los defaults genéricos de IA
+  (nada de crema #F4F1EA + terracota, ni tarjetas SaaS redondeadas iguales).
+*/
+@theme {
+  --color-ivory: #faf6f2;       /* fondo base, cálido, ligeramente rosado */
+  --color-plum-ink: #241b1f;    /* texto principal, casi negro con tinte ciruela */
+  --color-wine: #7a2e3a;        /* acento primario — "cocktail" elegante, no alcohol-bar */
+  --color-wine-dark: #5c2029;
+  --color-blush: #e3c7c2;       /* acento secundario, suave */
+  --color-gold: #b8935a;        /* detalle, uso mínimo (líneas, iconografía) */
+  --color-sage: #a9b79a;        /* color de soporte para estados "piel calmada" */
+
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+html,
+body {
+  background-color: var(--color-ivory);
+  color: var(--color-plum-ink);
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
