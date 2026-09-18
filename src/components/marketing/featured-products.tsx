@@ -40,14 +40,13 @@ export function FeaturedProducts() {
 
         // Fallback images if the DB images are missing or placeholders
         const fallbackImages: Record<string, string> = {
-          "anua-heartleaf-quercetinol-pore-deep-cleansing-foam": "https://theskincarelibrary.com/cdn/shop/files/Anua_Heartleaf_Quercetinol_Pore_Deep_Cleansing_Foam_New_Packaging_TSCL_Photo_1024x.png?v=1748980412",
-          "beauty-of-joseon-green-plum-refreshing-cleanser": "https://www.shopmissa.com/cdn/shop/files/BOJ_GreenPlumRefreshingCleanser_Main.jpg?v=1761338859",
-          "cosrx-low-ph-good-morning-gel-cleanser": "https://cdn11.bigcommerce.com/s-hwo2s3k4l6/images/stencil/1280x1280/products/180/466/COSRX_Low_pH_Good_Morning_Gel_Cleanser_KBeauty_Australia__59171.1656446669.jpg?c=2",
-          "haruharu-wonder-black-rice-moisture-cleansing-oil": "https://static.sweetcare.com/img/prd/488/v-638845462851194079/haruharu-wonder-024588a3_01.jpg",
-          "skin1004-madagascar-centella-ampoule": "https://cdn11.bigcommerce.com/s-hwo2s3k4l6/images/stencil/1280x1280/products/339/1263/SKIN1004_Madagascar_Centella_Ampoule_100_mL_KBeauty_Australia__93954.1682085405.jpg?c=2",
-          "beauty-of-joseon-glow-deep-serum": "https://static.sweetcare.com/img/prd/488/v-638233396300406846/beauty-of-joseon-017849bj_01.jpg",
-          "cosrx-advanced-snail-96-mucin-power-essence": "https://www.cosrx.com/cdn/shop/products/Snail96_1_1024x.jpg",
-          "skin1004-madagascar-centella-hyalu-cica-water-fit-sun-serum": "https://theskincarelibrary.com/cdn/shop/files/Skin1004CentellaHyalu-CicaWater-FitSunSerum_1024x.png?v=1702982609",
+          "anua-heartleaf-quercetinol-pore-deep-cleansing-foam-150-ml": "https://theskincarelibrary.com/cdn/shop/files/Anua_Heartleaf_Quercetinol_Pore_Deep_Cleansing_Foam_New_Packaging_TSCL_Photo_1024x.png?v=1748980412",
+          "beauty-of-joseon-green-plum-refreshing-cleanser-100-ml": "https://www.shopmissa.com/cdn/shop/files/BOJ_GreenPlumRefreshingCleanser_Main.jpg?v=1761338859",
+          "cosrx-low-ph-good-morning-gel-cleanser-150-ml": "https://cdn11.bigcommerce.com/s-hwo2s3k4l6/images/stencil/1280x1280/products/180/466/COSRX_Low_pH_Good_Morning_Gel_Cleanser_KBeauty_Australia__59171.1656446669.jpg?c=2",
+          "skin1004-madagascar-centella-ampule-100-ml": "https://cdn11.bigcommerce.com/s-hwo2s3k4l6/images/stencil/1280x1280/products/339/1263/SKIN1004_Madagascar_Centella_Ampoule_100_mL_KBeauty_Australia__93954.1682085405.jpg?c=2",
+          "beauty-of-joseon-glow-deep-serum-rice-alpha-arbutin-60ml": "https://static.sweetcare.com/img/prd/488/v-638233396300406846/beauty-of-joseon-017849bj_01.jpg",
+          "cosrx-advanced-snail-96-mucin-power-essence-100-ml": "https://www.cosrx.com/cdn/shop/products/Snail96_1_1024x.jpg",
+          "skin1004-madagascar-centella-hyalu-cica-water-fit-sun-serum-50-ml": "https://theskincarelibrary.com/cdn/shop/files/Skin1004CentellaHyalu-CicaWater-FitSunSerum_1024x.png?v=1702982609",
         };
 
         const finalData = data.map((p: any) => ({
@@ -101,7 +100,15 @@ export function FeaturedProducts() {
               >
                 {/* Image Placeholder */}
                 <div className="relative aspect-[3/4] overflow-hidden bg-blush/20 flex items-center justify-center">
-                  <span className="text-plum-ink/20 font-display text-4xl">SK</span>
+                  {product.image ? (
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <span className="text-plum-ink/20 font-display text-4xl">SK</span>
+                  )}
                   {/* Stock badge */}
                   {(product.stock ?? 1) === 0 && (
                     <div className="absolute inset-0 flex items-center justify-center bg-plum-ink/70" role="alert">
