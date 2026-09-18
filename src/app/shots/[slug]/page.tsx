@@ -7,11 +7,9 @@ import { Header } from "@/components/marketing/header";
 import { Footer } from "@/components/marketing/footer";
 import { AddShotToCartButton } from "@/components/cart/add-shot-to-cart-button";
 import { ConsultationSection } from "@/components/cocktail/consultation-section";
+import { resolveProductImage } from "@/lib/image-utils";
 
 export const dynamic = "force-dynamic";
-
-const STEP_ICONS: Record<string, string> = {
-// ...
 
 const STEP_ICONS: Record<string, string> = {
   cleanser: "🧴",
@@ -176,7 +174,7 @@ export default async function ShotDetailPage({
                     <div className="flex items-start gap-4 min-w-0">
                       <div className="flex h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-blush/20 shadow-soft">
                         <img
-                          src={p.image || "https://images.unsplash.com/photo-1556228578-07257739599a?w=600"}
+                          src={resolveProductImage(p)}
                           alt={p.name}
                           className="h-full w-full object-cover"
                         />

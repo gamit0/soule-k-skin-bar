@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { track } from "@/lib/track";
+import { resolveProductImage } from "@/lib/image-utils";
 
 /* RoutineStep → color chip mapping. */
 const STEP_CHIP: Record<string, string> = {
@@ -38,20 +39,9 @@ export function FeaturedProducts() {
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
 
-        // Fallback images if the DB images are missing or placeholders
-        const fallbackImages: Record<string, string> = {
-          "anua-heartleaf-quercetinol-pore-deep-cleansing-foam-150-ml": "/products/anua-heartleaf-quercetinol-pore-deep-cleansing-foam-150-ml.webp",
-          "beauty-of-joseon-green-plum-refreshing-cleanser-100-ml": "/products/beauty-of-joseon-green-plum-refreshing-cleanser-100-ml.webp",
-          "cosrx-low-ph-good-morning-gel-cleanser-150-ml": "/products/cosrx-low-ph-good-morning-gel-cleanser-150-ml.webp",
-          "dr-althea-balsamo-limpiador-pure-grinding-cleansing-balm-50-ml": "/products/dr-althea-balsamo-limpiador-pure-grinding-cleansing-balm-50-ml.jpg",
-          "etude-espuma-limpiadora-soon-jung-whip-cleanser-renewal-150-ml": "/products/etude-espuma-limpiadora-soon-jung-whip-cleanser-renewal-150-ml.webp",
-          "haruharu-wonder-gel-limpiador-black-rice-moisture-55-soft-cleansing-gel-100-ml": "/products/haruharu-wonder-gel-limpiador-black-rice-moisture-55-soft-cleansing-gel-100-ml.avif",
-          "anua-aceite-limpiador-heartleaf-pore-control-200-ml": "/products/anua-aceite-limpiador-heartleaf-pore-control-200-ml.webp",
-        };
-
         const finalData = data.map((p: any) => ({
           ...p,
-          image: fallbackImages[p.slug] || (p.image && p.image !== "SK" ? p.image : p.image),
+          image: resolveProductImage(p),
         }));
 
         setFeatured(finalData);
