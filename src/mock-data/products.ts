@@ -4092,3 +4092,5 @@ export const mockProducts: Product[] =
     "sourcePage": 66
   }
 ];
+
+export const mockFeaturedProducts = mockProducts.slice(0, 8);

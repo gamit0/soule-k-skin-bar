@@ -8,21 +8,31 @@ import { track } from "@/lib/track";
 /* Simple curated image map for key hero products. */
 const PRODUCT_IMAGES: Record<string, string> = {
   "anua-heartleaf-quercetinol-pore-deep-cleansing-foam-150-ml":
-    "https://images.unsplash.com/photo-1556228578-07257739599a?auto=format&fit=crop&q=80&w=600",
+    "https://images.unsplash.com/photo-1556228578-07257739599a?w=600",
   "anua-aceite-limpiador-heartleaf-pore-control-200-ml":
-    "https://images.unsplash.com/photo-1612817288484-6f9C77376778?auto=format&fit=crop&q=80&w=600",
+    "https://images.unsplash.com/photo-1612817288484-6f9c77376778?w=600",
   "beauty-of-joseon-green-plum-refreshing-cleanser-100-ml":
-    "https://images.unsplash.com/photo-1601049541289-9b1b7677636a?auto=format&fit=crop&q=80&w=600",
+    "https://images.unsplash.com/photo-1601049541289-9b1b7677636a?w=600",
+  "celimax-limpiador-en-burbujas-para-acne-the-real-noni-150-ml":
+    "https://images.unsplash.com/photo-1598440947619-27a8b4447ed3?w=600",
+  "cosrx-low-ph-good-morning-gel-cleanser-150-ml":
+    "https://images.unsplash.com/photo-1570172619644-797ed64c374a?w=600",
+  "dr-althea-balsamo-limpiador-pure-grinding-cleansing-balm-50-ml":
+    "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600",
+  "etude-espuma-limpiadora-soon-jung-whip-cleanser-renewal-150-ml":
+    "https://images.unsplash.com/photo-1596755094514-f87e302776c7?w=600",
+  "haruharu-wonder-gel-limpiador-black-rice-moisture-55-soft-cleansing-gel-100-ml":
+    "https://images.unsplash.com/photo-1608248597279-f99d167c97f7?w=600",
   "anua-niacinamide-10-txa-4-serum-30-ml":
-    "https://images.unsplash.com/photo-1598440947619-27a8b4447ed3?auto=format&fit=crop&q=80&w=600",
+    "https://images.unsplash.com/photo-1556228578-07257739599a?w=600",
   "axis-y-dark-spot-correcting-glow-serum-50-ml":
-    "https://images.unsplash.com/photo-1570172619644-797ed64c374a?auto=format&fit=crop&q=80&w=600",
+    "https://images.unsplash.com/photo-1612817288484-6f9c77376778?w=600",
   "isntree-serum-de-acido-hialuronico-ultra-low-molecular-hyaluronic-acid-serum-50-ml":
-    "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=600",
+    "https://images.unsplash.com/photo-1601049541289-9b1b7677636a?w=600",
   "torriden-dive-in-low-molecular-hyaluronic-acid-serum-50-ml":
-    "https://images.unsplash.com/photo-1596755094514-f87e302776c7?auto=format&fit=crop&q=80&w=600",
+    "https://images.unsplash.com/photo-1598440947619-27a8b4447ed3?w=600",
   "numbuzin-serum-no5-glutathione-vitamin-concentrated-30-ml":
-    "https://images.unsplash.com/photo-1608248597279-f99d167c97f7?auto=format&fit=crop&q=80&w=600",
+    "https://images.unsplash.com/photo-1570172619644-797ed64c374a?w=600",
 };
 
 /* RoutineStep → color chip mapping. */
