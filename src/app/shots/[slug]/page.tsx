@@ -231,7 +231,7 @@ export default async function ShotDetailPage({
                   ¿Lista para transformar tu piel?
                 </h3>
                 <p className="mt-1 text-sm text-plum-ink/70">
-                  Agrega este Shot a tu carrito o consulta a nuestras especialistas por WhatsApp.
+                  Agrega este Shot a tu carrito o visita nuestra sección de contacto para más información.
                 </p>
               </div>
               <div className="w-full sm:w-auto min-w-[260px]">

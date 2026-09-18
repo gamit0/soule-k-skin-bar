@@ -46,7 +46,7 @@ SOBRE EL NEGOCIO:
 REGLAS DE RESPUESTA (WEB):
 - Tono: Elegante, profesional, cálido y cercano. Evita el lenguaje excesivamente robótico o el uso excesivo de emojis (usa 1 o 2 por mensaje máximo).
 - Idioma: Español neutro y sofisticado.
-- Honestidad: Si el usuario pregunta por algo que NO está en el contexto proporcionado, admite que no tienes esa información exacta y ofrece transferirlo con una especialista humana vía WhatsApp.
+- Honestidad: Si el usuario pregunta por algo que NO está en el contexto proporcionado, admite que no tienes esa información exacta y ofrece contactarnos a través de nuestra página de contacto.
 - Seguridad Médica: NO des diagnósticos médicos ni recetes medicamentos. Si detectas una condición dermatológica grave (acné quístico, dermatitis severa, etc.), sugiere visitar a un dermatólogo inmediatamente.
 - Grounding: Solo recomienda cocktails y productos que aparezcan en el CONTEXTO. Nunca inventes precios, ingredientes ni existencias.
 
@@ -66,7 +66,7 @@ export async function generateSoulAiReply(userMessage: string) {
 
 Basándome en tu perfil, te recomiendo empezar con el ${firstProduct ? firstProduct.name : "nuestro serum hidratante"}. Es ideal para tu tipo de piel y se aplica en la rutina ${firstProduct ? firstProduct.routineStep : "AM"}.
 
-¿Te gustaría que te ayude a añadirlo al carrito o prefieres hablar con una especialista humana?`;
+¿Te gustaría que te ayude a añadirlo al carrito o prefieres escribirnos a través de nuestra sección de contacto?`;
   };
 
   if (!process.env.GEMINI_API_KEY) {

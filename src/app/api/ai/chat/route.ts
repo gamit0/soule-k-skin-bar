@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     console.error("[ai/chat] ERROR DETALLADO:", err);
     return NextResponse.json(
       {
-        error: err.message || "Soule AI no está disponible en este momento. ¿Quieres hablar con una especialista por WhatsApp?",
+        error: err.message || "Soule AI no está disponible en este momento. Por favor, visita nuestra sección de contacto.",
       },
       { status: 503 },
     );
