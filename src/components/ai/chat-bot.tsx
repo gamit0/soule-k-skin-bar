@@ -26,6 +26,33 @@ export function ChatBot({
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  function resetSession() {
+    setMessages([
+      {
+        role: "assistant",
+        content: `¡Hola! Soy Soule AI. He visto que tu cocktail recomendado es el ${cocktailName}. ¿Tienes alguna duda sobre los productos o quieres saber más sobre cómo aplicarlos en tu rutina?`
+      }
+    ]);
+    onClose();
+  }
+
+  function resetTimer() {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      resetSession();
+    }, 10 * 60 * 1000); // 10 minutos
+  }
+
+  useEffect(() => {
+    if (isOpen) {
+      resetTimer();
+    }
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [isOpen]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -42,6 +69,7 @@ export function ChatBot({
     setInput("");
     setMessages((prev) => [...prev, { role: "user", content: userMsg }]);
     setIsLoading(true);
+    resetTimer();
 
     try {
       const response = await fetch("/api/ai/chat", {

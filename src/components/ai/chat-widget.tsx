@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 type Message = { role: "user" | "assistant"; text: string };
 
@@ -9,6 +9,25 @@ export function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  function resetSession() {
+    setMessages([]);
+    setOpen(false);
+  }
+
+  function resetTimer() {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      resetSession();
+    }, 10 * 60 * 1000); // 10 minutos
+  }
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   async function send() {
     if (!input.trim()) return;
@@ -16,6 +35,7 @@ export function ChatWidget() {
     setMessages((m) => [...m, { role: "user", text: userMessage }]);
     setInput("");
     setLoading(true);
+    resetTimer();
 
     try {
       const res = await fetch("/api/ai/chat", {
@@ -36,7 +56,10 @@ export function ChatWidget() {
   if (!open) {
     return (
       <button
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          setOpen(true);
+          resetTimer();
+        }}
         className="fixed bottom-6 right-6 rounded-full bg-wine px-5 py-3 text-sm text-ivory shadow-lg"
       >
         🍸 Soule AI
