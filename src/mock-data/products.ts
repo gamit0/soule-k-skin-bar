@@ -1,6 +1,7 @@
 import { Product } from "@/types";
 
-export const mockProducts: Product[] = [
+export const mockProducts: Product[] = 
+[
   {
     "id": "prod_001",
     "slug": "anua-heartleaf-quercetinol-pore-deep-cleansing-foam-150-ml",
@@ -10,7 +11,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Espuma limpiadora enriquecida con polvo de planta camaleón para eliminar las células muertas de la piel y purificar los poros. La fórmula granulada está infusio...",
     "price": 299.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
+    "routineStep": "treatment",
     "usage": "BOTH",
     "skinTypes": [
       "oily",
@@ -30,8 +31,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 1
   },
   {
@@ -43,8 +44,8 @@ export const mockProducts: Product[] = [
     "shortDescription": "El limpiador es el primer paso esencial para limpiar la piel. Empieza las cosas con buen pie con el aceite limpiador Heartleaf Pore Control para limpiar en prof...",
     "price": 290.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
-    "usage": "PM",
+    "routineStep": "treatment",
+    "usage": "AM",
     "skinTypes": [
       "oily",
       "combination",
@@ -66,8 +67,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 1
   },
   {
@@ -79,7 +80,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Limpiador facial multiusos infundido con agua de ciruela, extracto de semilla de frijol mungo y hierbas nutritivas, que exfolia suavemente mientras brinda una l...",
     "price": 250.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
+    "routineStep": "treatment",
     "usage": "BOTH",
     "skinTypes": [
       "dry",
@@ -100,8 +101,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 2
   },
   {
@@ -113,7 +114,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "¿Esta tu piel grasa, sensible o con tendencia acneica portándose mal? ¡Noni viene al rescate con el limpiador Noni de celimax! Formulado con extracto de noni nu...",
     "price": 299.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
+    "routineStep": "treatment",
     "usage": "PM",
     "skinTypes": [
       "dry",
@@ -137,8 +138,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 2
   },
   {
@@ -150,7 +151,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Empieza el día con el pie derecho, tratando a tu piel con un limpiador gentil y ligero con un pH bajo que remueve efectivamente el exceso de grasa y piel muerta...",
     "price": 265.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
+    "routineStep": "treatment",
     "usage": "PM",
     "skinTypes": [
       "oily",
@@ -170,8 +171,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 3
   },
   {
@@ -183,7 +184,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "¡Empieza tu rutina de doble limpieza con este bálsamo limpiador! Está formulado con aceite de semilla de té verde, madecasoside y pantenol para eliminar suaveme...",
     "price": 340.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
+    "routineStep": "treatment",
     "usage": "AM",
     "skinTypes": [
       "sensitive"
@@ -198,8 +199,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 3
   },
   {
@@ -211,7 +212,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Espuma limpiadora formulada con ingredientes naturales y sin parabenos, fragancias ni colorantes artificiales. Su fórmula de pH bajo incorpora pantenol para hid...",
     "price": 240.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
+    "routineStep": "treatment",
     "usage": "BOTH",
     "skinTypes": [
       "sensitive"
@@ -227,8 +228,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 4
   },
   {
@@ -240,7 +241,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "¡Gel limpiador purificante que le da una nueva vida a tu rutina diaria! Su fórmula ligeramente ácida, enriquecida con agentes limpiadores derivados del coco, el...",
     "price": 299.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
+    "routineStep": "treatment",
     "usage": "BOTH",
     "skinTypes": [
       "sensitive"
@@ -256,8 +257,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 4
   },
   {
@@ -269,7 +270,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Simple pero poderoso, aceite limpiador que contiene un 95% de aceites vegetales de origen natural para aportar una limpieza profunda y una hidratación duradera....",
     "price": 300.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
+    "routineStep": "treatment",
     "usage": "BOTH",
     "skinTypes": [
       "normal",
@@ -291,8 +292,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 5
   },
   {
@@ -304,7 +305,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Solo necesitas unas cuantas pasadas de los Toner Pads Zero Pore Pad 2.0 de medicube, empapados con exfoliantes químicos como AHA y BHA, para mantener tus poros ...",
     "price": 469.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
+    "routineStep": "treatment",
     "usage": "PM",
     "skinTypes": [
       "oily",
@@ -326,8 +327,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 5
   },
   {
@@ -339,7 +340,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Espuma limpiadora formulada con un 32.8% de extracto de cica para calmar la irritación, ácido salicílico para el cuidado de los poros y extracto de algas marina...",
     "price": 215.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
+    "routineStep": "treatment",
     "usage": "BOTH",
     "skinTypes": [
       "oily",
@@ -361,8 +362,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 6
   },
   {
@@ -374,7 +375,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "La espuma limpiadora elimina el residuo de maquillaje y las impurezas a fondo. Rebosante de agua pura de las profundidades marinas y ácidos hialurónicos, la for...",
     "price": 199.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
+    "routineStep": "treatment",
     "usage": "BOTH",
     "skinTypes": [
       "sensitive"
@@ -389,8 +390,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 6
   },
   {
@@ -402,7 +403,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Empieza tu rutina de doble limpieza de la mejor manera con un limpiador a base de aceite de primera categoría que además nutre y cuida la piel. Te presentamos: ...",
     "price": 265.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
+    "routineStep": "treatment",
     "usage": "BOTH",
     "skinTypes": [
       "oily",
@@ -422,8 +423,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 7
   },
   {
@@ -435,7 +436,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Este aceite limpiador vegano combina 5.000 ppm de polvo de calamina y 100 ppm de leche blanca vegana para eliminar eficazmente las impurezas, el exceso de sebo ...",
     "price": 250.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
+    "routineStep": "treatment",
     "usage": "BOTH",
     "skinTypes": [
       "oily",
@@ -453,8 +454,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 8
   },
   {
@@ -466,7 +467,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Aporta una limpieza profunda a tu piel con esta espuma limpiadora que promete eliminar las células muertas de la piel y las impurezas de los poros gracias a la ...",
     "price": 199.0,
     "category": "LIMPIADOR",
-    "routineStep": "cleanser",
+    "routineStep": "treatment",
     "usage": "BOTH",
     "skinTypes": [
       "oily",
@@ -488,8 +489,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 8
   },
   {
@@ -519,8 +520,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 9
   },
   {
@@ -551,8 +552,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 9
   },
   {
@@ -583,8 +584,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 10
   },
   {
@@ -618,8 +619,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 10
   },
   {
@@ -659,8 +660,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 11
   },
   {
@@ -696,8 +697,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 11
   },
   {
@@ -733,8 +734,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 12
   },
   {
@@ -768,8 +769,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 12
   },
   {
@@ -805,8 +806,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 13
   },
   {
@@ -842,8 +843,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 13
   },
   {
@@ -877,8 +878,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 14
   },
   {
@@ -908,8 +909,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 15
   },
   {
@@ -941,8 +942,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 15
   },
   {
@@ -976,8 +977,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 16
   },
   {
@@ -1016,8 +1017,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 16
   },
   {
@@ -1055,8 +1056,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 17
   },
   {
@@ -1093,8 +1094,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 17
   },
   {
@@ -1131,8 +1132,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 18
   },
   {
@@ -1165,8 +1166,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 19
   },
   {
@@ -1203,8 +1204,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 19
   },
   {
@@ -1235,8 +1236,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 20
   },
   {
@@ -1270,8 +1271,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 20
   },
   {
@@ -1299,8 +1300,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 21
   },
   {
@@ -1330,8 +1331,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 22
   },
   {
@@ -1363,8 +1364,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 22
   },
   {
@@ -1391,8 +1392,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 23
   },
   {
@@ -1430,8 +1431,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 24
   },
   {
@@ -1465,8 +1466,8 @@ export const mockProducts: Product[] = [
       "Dullness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 24
   },
   {
@@ -1499,8 +1500,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 25
   },
   {
@@ -1531,8 +1532,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 25
   },
   {
@@ -1564,8 +1565,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 26
   },
   {
@@ -1597,8 +1598,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 26
   },
   {
@@ -1626,8 +1627,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 27
   },
   {
@@ -1663,8 +1664,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 27
   },
   {
@@ -1704,8 +1705,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 28
   },
   {
@@ -1737,8 +1738,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 28
   },
   {
@@ -1773,8 +1774,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 29
   },
   {
@@ -1808,8 +1809,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 29
   },
   {
@@ -1841,8 +1842,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 30
   },
   {
@@ -1878,8 +1879,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 30
   },
   {
@@ -1907,8 +1908,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 31
   },
   {
@@ -1937,8 +1938,8 @@ export const mockProducts: Product[] = [
       "Dullness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 31
   },
   {
@@ -1974,8 +1975,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 32
   },
   {
@@ -2003,8 +2004,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 33
   },
   {
@@ -2035,8 +2036,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 33
   },
   {
@@ -2071,8 +2072,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 34
   },
   {
@@ -2105,8 +2106,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 35
   },
   {
@@ -2138,8 +2139,8 @@ export const mockProducts: Product[] = [
       "Dullness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 35
   },
   {
@@ -2175,8 +2176,8 @@ export const mockProducts: Product[] = [
       "Dullness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 36
   },
   {
@@ -2209,8 +2210,8 @@ export const mockProducts: Product[] = [
       "Dullness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 36
   },
   {
@@ -2243,8 +2244,8 @@ export const mockProducts: Product[] = [
       "Dullness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 37
   },
   {
@@ -2276,8 +2277,8 @@ export const mockProducts: Product[] = [
       "Dullness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 37
   },
   {
@@ -2289,7 +2290,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Estos parches de hidrogel aportan un toque de firmeza y luminosidad a ojos opacos y cansados gracias al retinal y al PDRN vegano derivado de centella, ginkgo y ...",
     "price": 320.0,
     "category": "OJERAS",
-    "routineStep": "eye_cream",
+    "routineStep": "treatment",
     "usage": "PM",
     "skinTypes": [
       "sensitive"
@@ -2310,8 +2311,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 38
   },
   {
@@ -2323,7 +2324,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "¿Tus ojos se ven cansados e hinchados por todas esas noches que te desvelas? Estos parches combinan sus poderes rejuvenecedores del extracto de rosa Jericó, col...",
     "price": 250.0,
     "category": "OJERAS",
-    "routineStep": "eye_cream",
+    "routineStep": "treatment",
     "usage": "BOTH",
     "skinTypes": [
       "normal",
@@ -2342,8 +2343,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 38
   },
   {
@@ -2355,7 +2356,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Una crema reafirmante para el contorno de ojos formulada con retinol para tensar la piel flácida del contorno, revitalizar la piel fatigada alrededor de los ojo...",
     "price": 290.0,
     "category": "OJERAS",
-    "routineStep": "eye_cream",
+    "routineStep": "treatment",
     "usage": "PM",
     "skinTypes": [
       "sensitive"
@@ -2378,8 +2379,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 39
   },
   {
@@ -2391,7 +2392,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Su fórmula ligera y de rápida absorción aprovecha el extracto de raíz de ginseng para hidratar y revitalizar la piel, un complejo de retinal liposomal al 2% par...",
     "price": 239.0,
     "category": "OJERAS",
-    "routineStep": "eye_cream",
+    "routineStep": "treatment",
     "usage": "PM",
     "skinTypes": [
       "dry"
@@ -2415,8 +2416,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 39
   },
   {
@@ -2428,7 +2429,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Afirma, eleva y rejuvenece la zona de los ojos con esta crema todo en uno de Centellian24. Está formulada con ingredientes icónicos como PDRN de salmón, PDRN de...",
     "price": 299.0,
     "category": "OJERAS",
-    "routineStep": "eye_cream",
+    "routineStep": "treatment",
     "usage": "PM",
     "skinTypes": [
       "sensitive"
@@ -2449,8 +2450,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 40
   },
   {
@@ -2462,7 +2463,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Las bolsas de los ojos y las arrugas no tienen oportunidad con esta intensa Crema contorno de ojos SEOUL 1988 Eye Cream con cuidado antienvejecimiento. Fórmula ...",
     "price": 220.0,
     "category": "OJERAS",
-    "routineStep": "eye_cream",
+    "routineStep": "treatment",
     "usage": "PM",
     "skinTypes": [
       "normal",
@@ -2486,8 +2487,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 40
   },
   {
@@ -2499,7 +2500,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Es una crema para el contorno de ojos diseñada para hidratar, reafirmar y disminuir los signos de fatiga y envejecimiento en la zona de la mirada. Gracias a su ...",
     "price": 499.0,
     "category": "OJERAS",
-    "routineStep": "eye_cream",
+    "routineStep": "treatment",
     "usage": "PM",
     "skinTypes": [
       "normal",
@@ -2519,8 +2520,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 41
   },
   {
@@ -2532,7 +2533,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Lleva tu rutina anti edad al siguiente nivel incorporando la crema de NIDA, enriquecida con ingredientes reafirmantes e iluminadores como retinal, bakuchiol, ni...",
     "price": 210.0,
     "category": "OJERAS",
-    "routineStep": "eye_cream",
+    "routineStep": "treatment",
     "usage": "PM",
     "skinTypes": [
       "normal",
@@ -2556,8 +2557,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 41
   },
   {
@@ -2569,7 +2570,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "¿Puede una crema para contorno de ojos realmente hacerlo todo? ¡Por supuesto – como es obvio en el bestseller de numbuzin la crema contorno de ojos No.9 NAD+ Re...",
     "price": 299.0,
     "category": "OJERAS",
-    "routineStep": "eye_cream",
+    "routineStep": "treatment",
     "usage": "PM",
     "skinTypes": [
       "normal",
@@ -2593,8 +2594,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 42
   },
   {
@@ -2626,8 +2627,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 42
   },
   {
@@ -2639,7 +2640,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Revitaliza el contorno de ojos cansado con estos parches enriquecidos con colágeno. Los parches de hidrogel están formulados con niacinamida para iluminar las o...",
     "price": 260.0,
     "category": "OJERAS",
-    "routineStep": "eye_cream",
+    "routineStep": "treatment",
     "usage": "BOTH",
     "skinTypes": [
       "normal",
@@ -2662,8 +2663,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 42
   },
   {
@@ -2675,7 +2676,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "Revierta los signos de envejecimiento alrededor del área de los ojos con esta crema vegana en gel para ojos enriquecida con un 81 % de agua de flores de lavanda...",
     "price": 210.0,
     "category": "OJERAS",
-    "routineStep": "eye_cream",
+    "routineStep": "treatment",
     "usage": "PM",
     "skinTypes": [
       "sensitive"
@@ -2693,8 +2694,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 43
   },
   {
@@ -2706,7 +2707,7 @@ export const mockProducts: Product[] = [
     "shortDescription": "El PDRN Hydrogel Eye Patch es un tratamiento cosmético diseñado para el contorno de ojos que utiliza PDRN vegano, un derivado del ginseng, para promover la rege...",
     "price": 370.0,
     "category": "OJERAS",
-    "routineStep": "eye_cream",
+    "routineStep": "treatment",
     "usage": "PM",
     "skinTypes": [
       "dry"
@@ -2730,8 +2731,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 43
   },
   {
@@ -2765,8 +2766,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 44
   },
   {
@@ -2803,8 +2804,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 44
   },
   {
@@ -2838,8 +2839,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 45
   },
   {
@@ -2873,8 +2874,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 46
   },
   {
@@ -2901,8 +2902,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 46
   },
   {
@@ -2939,8 +2940,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 47
   },
   {
@@ -2973,8 +2974,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 47
   },
   {
@@ -3013,8 +3014,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 48
   },
   {
@@ -3052,8 +3053,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 48
   },
   {
@@ -3084,8 +3085,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 49
   },
   {
@@ -3122,8 +3123,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 49
   },
   {
@@ -3162,8 +3163,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 50
   },
   {
@@ -3192,8 +3193,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 51
   },
   {
@@ -3227,8 +3228,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 51
   },
   {
@@ -3258,8 +3259,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 52
   },
   {
@@ -3296,8 +3297,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 52
   },
   {
@@ -3331,8 +3332,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 53
   },
   {
@@ -3366,8 +3367,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 54
   },
   {
@@ -3399,8 +3400,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 54
   },
   {
@@ -3432,8 +3433,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 55
   },
   {
@@ -3470,8 +3471,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 55
   },
   {
@@ -3499,8 +3500,8 @@ export const mockProducts: Product[] = [
       "Acne"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 56
   },
   {
@@ -3531,8 +3532,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 57
   },
   {
@@ -3560,8 +3561,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 57
   },
   {
@@ -3593,8 +3594,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 58
   },
   {
@@ -3625,8 +3626,8 @@ export const mockProducts: Product[] = [
       "Dullness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 59
   },
   {
@@ -3664,8 +3665,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 59
   },
   {
@@ -3696,8 +3697,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 60
   },
   {
@@ -3726,8 +3727,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 60
   },
   {
@@ -3755,8 +3756,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 61
   },
   {
@@ -3792,8 +3793,8 @@ export const mockProducts: Product[] = [
       "Dullness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 61
   },
   {
@@ -3826,8 +3827,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 62
   },
   {
@@ -3861,8 +3862,8 @@ export const mockProducts: Product[] = [
       "Dullness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 62
   },
   {
@@ -3896,8 +3897,8 @@ export const mockProducts: Product[] = [
       "Dullness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 63
   },
   {
@@ -3927,8 +3928,8 @@ export const mockProducts: Product[] = [
       "Dullness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 63
   },
   {
@@ -3956,8 +3957,8 @@ export const mockProducts: Product[] = [
       "Dehydration"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 64
   },
   {
@@ -3995,8 +3996,8 @@ export const mockProducts: Product[] = [
       "Pores"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 64
   },
   {
@@ -4028,8 +4029,8 @@ export const mockProducts: Product[] = [
       "Aging"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 65
   },
   {
@@ -4058,8 +4059,8 @@ export const mockProducts: Product[] = [
       "Oiliness"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 65
   },
   {
@@ -4086,10 +4087,8 @@ export const mockProducts: Product[] = [
       "Acne"
     ],
     "stock": 10,
-    inStock: true,
-    active: true,
+    "inStock": true,
+    "active": true,
     "sourcePage": 66
   }
 ];
-
-export const mockFeaturedProducts = mockProducts.slice(0, 12);

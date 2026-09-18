@@ -7,7 +7,7 @@ import "dotenv/config";
 import { db } from "./client";
 import { sql } from "drizzle-orm";
 import { products, cocktails, cocktailProducts, quizQuestions, quizOptions, quizOptionWeights, productImages } from "./schema";
-import { mockFeaturedProducts } from "@/mock-data/products";
+import { mockProducts } from "@/mock-data/products";
 import { mockCocktails } from "@/mock-data/cocktails";
 
 // URLs curadas con estética K-Beauty (Seoul Korea Skincare): minimalista, limpio, fondos claros.
@@ -37,7 +37,7 @@ async function seed() {
   const insertedProducts = await db
     .insert(products)
     .values(
-      mockFeaturedProducts.map((p) => ({
+      mockProducts.map((p) => ({
         slug: p.slug,
         name: p.name,
         brand: p.brand,
@@ -73,38 +73,36 @@ async function seed() {
     .returning();
 
   console.log("Asociando productos a cocktails...");
+
+  // Create a map of mockProductId -> dbProductId
+  const productMap = new Map<string, string>();
+  mockProducts.forEach((p, i) => {
+    if (insertedProducts[i]) {
+      productMap.set(p.id, insertedProducts[i].id);
+    }
+  });
+
   for (const cocktail of insertedCocktails) {
-    const routineAM = insertedProducts.filter(p => {
-      const p0 = insertedProducts[0];
-      const p3 = insertedProducts[3];
-      const p9 = insertedProducts[9];
-      return (p0 && p.id === p0.id) || (p3 && p.id === p3.id) || (p9 && p.id === p9.id);
-    });
+    const mockCocktail = mockCocktails.find(mc => mc.slug === cocktail.slug);
+    if (!mockCocktail || !mockCocktail.steps) continue;
 
-    const routinePM = insertedProducts.filter(p => {
-      const p0 = insertedProducts[0];
-      const p5 = insertedProducts[5];
-      const p7 = insertedProducts[7];
-      return (p0 && p.id === p0.id) || (p5 && p.id === p5.id) || (p7 && p.id === p7.id);
-    });
-
-    await db.insert(cocktailProducts).values(
-      routineAM.map((p, i) => ({
+    const associations = mockCocktail.steps.map((step, index) => {
+      const dbProductId = productMap.get(step.productId);
+      if (!dbProductId) {
+        console.warn(`Product ${step.productId} not found in database for cocktail ${cocktail.slug}`);
+        return null;
+      }
+      return {
         cocktailId: cocktail.id,
-        productId: p.id,
-        routine: "AM" as const,
-        order: i,
-      }))
-    );
+        productId: dbProductId,
+        routine: step.usage as "AM" | "PM" | "BOTH",
+        order: index,
+      };
+    }).filter(Boolean);
 
-    await db.insert(cocktailProducts).values(
-      routinePM.map((p, i) => ({
-        cocktailId: cocktail.id,
-        productId: p.id,
-        routine: "PM" as const,
-        order: i,
-      }))
-    );
+    if (associations.length > 0) {
+      await db.insert(cocktailProducts).values(associations as any);
+    }
   }
 
   console.log("Seeding pregunta de ejemplo del quiz...");
