@@ -100,7 +100,7 @@ export function FeaturedProducts() {
               >
                 {/* Image Placeholder */}
                 <div className="relative aspect-[3/4] overflow-hidden bg-blush/20 flex items-center justify-center">
-                  {product.image ? (
+                  {(product.image && product.image !== "SK" && product.image.startsWith("http")) ? (
                     <img
                       src={product.image}
                       alt={product.name}
