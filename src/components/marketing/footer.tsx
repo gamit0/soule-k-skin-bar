@@ -17,9 +17,10 @@ export function Footer() {
     {
       title: "Ayuda",
       links: [
-        { label: "Contacto", href: "/contacto" },
+        { label: "Contacto", href: "/contact" },
         { label: "Envíos y devoluciones", href: "/envios" },
         { label: "Preguntas frecuentes", href: "/faq" },
+        { label: "Hablar con especialista", href: "/especialista" },
       ],
     },
     {
