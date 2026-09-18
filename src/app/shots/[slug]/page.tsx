@@ -2,10 +2,16 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getShotBySlug, getActiveShots } from "@/server/repositories/shot-repository";
+// ... (imports)
 import { Header } from "@/components/marketing/header";
 import { Footer } from "@/components/marketing/footer";
 import { AddShotToCartButton } from "@/components/cart/add-shot-to-cart-button";
 import { ConsultationSection } from "@/components/cocktail/consultation-section";
+
+export const dynamic = "force-dynamic";
+
+const STEP_ICONS: Record<string, string> = {
+// ...
 
 const STEP_ICONS: Record<string, string> = {
   cleanser: "🧴",
