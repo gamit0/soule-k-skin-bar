@@ -51,7 +51,7 @@ export function FeaturedProducts() {
 
         const finalData = data.map((p: any) => ({
           ...p,
-          image: p.image && p.image !== "SK" ? p.image : (fallbackImages[p.slug] || p.image),
+          image: p.image && p.image !== "SK" ? p.image : p.image,
         }));
 
         setFeatured(finalData);
