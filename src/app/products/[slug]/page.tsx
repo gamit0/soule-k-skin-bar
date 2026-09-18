@@ -2,7 +2,9 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Header } from "@/components/marketing/header";
 import { Footer } from "@/components/marketing/footer";
-import { mockFeaturedProducts } from "@/mock-data/products";
+import { db } from "@/lib/db/client";
+import { eq } from "drizzle-orm";
+import { products, productImages } from "@/lib/db/schema";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 
 const STEP_ICONS: Record<string, string> = {
@@ -35,7 +37,10 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = mockFeaturedProducts.find((p) => p.slug === slug);
+  const product = await db.query.products.findFirst({
+    where: eq(products.slug, slug),
+  });
+
   if (!product) {
     return { title: "Producto no encontrado" };
   }
@@ -59,9 +64,18 @@ export default async function ProductDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = mockFeaturedProducts.find((p) => p.slug === slug);
+
+  const product = await db.query.products.findFirst({
+    where: eq(products.slug, slug),
+  });
 
   if (!product) notFound();
+
+  const images = await db.query.productImages.findMany({
+    where: eq(productImages.productId, product.id),
+  });
+
+  const mainImage = images[0]?.url || "https://images.unsplash.com/photo-1556228578-07257739599a?w=600";
 
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
   const whatsappUrl = whatsappNumber
@@ -88,9 +102,11 @@ export default async function ProductDetailPage({
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
             {/* Image Section */}
             <div className="relative aspect-square overflow-hidden rounded-3xl bg-blush/20 shadow-soft">
-              <div className="flex h-full w-full items-center justify-center text-plum-ink/15 text-lg italic">
-                Imagen del Producto
-              </div>
+              <img
+                src={mainImage}
+                alt={product.name}
+                className="h-full w-full object-cover"
+              />
 
               {/* Routine step overlay */}
               <div className="absolute top-4 left-4">

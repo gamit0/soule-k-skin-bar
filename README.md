@@ -2,43 +2,47 @@
 
 E-commerce platform for personalized skincare. Architecture based on a deterministic scoring engine for skin diagnosis (Cocktails).
 
-## Stack
-- Next.js
-- TypeScript
-- Tailwind
-- Drizzle
-- PostgreSQL
+## 🚀 Quick Start (Local)
 
-## Instalación
+1.  **Instalación**:
+    ```bash
+    npm install
+    ```
+2.  **Configuración**:
+    Copia el archivo `.env.example` a `.env` y rellena las variables.
+3.  **Base de Datos**:
+    Aplica las migraciones y carga los datos mock:
+    ```bash
+    npm run db:migrate
+    npm run db:seed
+    ```
+4.  **Ejecución**:
+    ```bash
+    npm run dev
+    ```
 
-```bash
-npm install
-```
+## 🌐 Despliegue en Producción (Sitio)
 
-## Desarrollo
+Para que el sitio funcione en producción (Vercel, Netlify, etc.), sigue estos pasos:
 
-```bash
-npm run dev
-```
+### 1. Variables de Entorno
+Configura las siguientes variables en el panel de control de tu hosting:
+- `DATABASE_URL`: Tu connection string de Supabase (usa el pooler puerto 6543).
+- `GEMINI_API_KEY`: Tu llave de Google Gemini AI.
+- `NEXT_PUBLIC_SUPABASE_URL` & `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Credenciales de Supabase.
+- `AUTH_SECRET`: Un string aleatorio largo para Auth.js.
+- `NEXT_PUBLIC_WHATSAPP_NUMBER`: Número de contacto con código de país.
 
-## Variables de entorno
+### 2. Base de Datos
+Asegúrate de aplicar las migraciones a tu base de datos de producción. Puedes hacerlo ejecutando `npm run db:migrate` desde un entorno que tenga acceso a la DB de producción o configurando un script de post-instalación.
 
-El proyecto requiere las siguientes variables de entorno definidas en un archivo `.env`:
+### 3. Build
+El comando de construcción estándar es `npm run build`.
 
-- `DATABASE_URL`: URL de conexión a PostgreSQL.
-- `AUTH_SECRET`: Secreto para Auth.js (generar con `openssl rand -base64 33`).
-- `AUTH_GOOGLE_ID` & `AUTH_GOOGLE_SECRET`: Credenciales de Google OAuth.
-- `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`: Credenciales de Stripe.
-- `NEXT_PUBLIC_WHATSAPP_NUMBER`: Número de WhatsApp para contacto.
-- `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`: Configuración de almacenamiento S3.
-- `ANTHROPIC_API_KEY`: Llave API de Anthropic para Soule AI.
-
-## Build
-
-```bash
-npm run build
-```
-
-## Estado actual
-
-Este repositorio representa la versión MVP actual del proyecto.
+## 🛠 Stack Técnico
+- **Framework**: Next.js 15 (App Router)
+- **Lenguaje**: TypeScript
+- **Estilos**: Tailwind CSS v4
+- **ORM**: Drizzle ORM
+- **Base de Datos**: PostgreSQL (Supabase)
+- **AI**: Google Gemini 1.5 Flash

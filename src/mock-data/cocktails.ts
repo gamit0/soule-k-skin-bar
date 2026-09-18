@@ -9,7 +9,7 @@ export const mockCocktails: Cocktail[] = [
     "menuTitle": "COCKTAIL OIL CONTROL",
     "subtitle": "Brillo + Sebo + Poros",
     "description": "Rutina purificante y matificante para balancear el exceso de sebo sin alterar la hidratación esencial.",
-    "icon": "🍃",
+    "icon": "🧊",
     "mood": "Clean",
     "concerns": [
       "oiliness",
@@ -160,7 +160,7 @@ export const mockCocktails: Cocktail[] = [
     "menuTitle": "COCKTAIL HYDRATION",
     "subtitle": "Piel Seca + Deshidratación",
     "description": "Infusión de agua profunda con ácido hialurónico multicapa y protector solar hidratante.",
-    "icon": "💧",
+    "icon": "🌊",
     "mood": "Hydrated",
     "concerns": [
       "dehydration",
@@ -335,7 +335,7 @@ export const mockCocktails: Cocktail[] = [
     "menuTitle": "COCKTAIL GLOW",
     "subtitle": "Luminosidad + Glass Skin",
     "description": "Rutina iluminadora a base de arroz fermentado y alfa-arbutina para un acabado radiante y uniforme.",
-    "icon": "✨",
+    "icon": "🌟",
     "mood": "Glow",
     "concerns": [
       "dullness",
@@ -530,7 +530,7 @@ export const mockCocktails: Cocktail[] = [
     "menuTitle": "COCKTAIL CALM",
     "subtitle": "Sensibilidad + Rojeces",
     "description": "Terapia calmante con Heartleaf 77% y espuma Soon Jung para pieles reactivas y con rojez.",
-    "icon": "🌿",
+    "icon": "☁️",
     "mood": "Calm",
     "concerns": [
       "sensitive",
@@ -671,7 +671,7 @@ export const mockCocktails: Cocktail[] = [
     "menuTitle": "COCKTAIL CLEAR SKIN",
     "subtitle": "Brotes + Imperfecciones",
     "description": "Control antibacteriano y desinflamante con ácido azelaico y centella Tea-Trica.",
-    "icon": "🎯",
+    "icon": "🫧",
     "mood": "Clean",
     "concerns": [
       "acne",
@@ -858,7 +858,7 @@ export const mockCocktails: Cocktail[] = [
     "menuTitle": "COCKTAIL PORE CARE",
     "subtitle": "Textura + Poros",
     "description": "Tratamiento intensivo con Zero Pore Pads, ampolla poremizing y limpieza profunda.",
-    "icon": "🧽",
+    "icon": "🔬",
     "mood": "Clean",
     "concerns": [
       "pores",
@@ -1056,7 +1056,7 @@ export const mockCocktails: Cocktail[] = [
     "menuTitle": "COCKTAIL EVEN TONE",
     "subtitle": "Manchas + Marcas",
     "description": "Fórmula unificadora antimanchas con Niacinamida 10% + TXA 4% y ampolla iluminadora de centella.",
-    "icon": "🌸",
+    "icon": "🐚",
     "mood": "Glow",
     "concerns": [
       "darkSpots",
@@ -1248,7 +1248,7 @@ export const mockCocktails: Cocktail[] = [
     "menuTitle": "COCKTAIL AGE WELL",
     "subtitle": "Firmeza + Prevención",
     "description": "Rutina pro-edad con Retinal Shot, complejo NAD+ y contorno de ojos con Ginseng + Retinal.",
-    "icon": "⏳",
+    "icon": "⌛",
     "mood": "Firm",
     "concerns": [
       "aging",
@@ -1445,7 +1445,7 @@ export const mockCocktails: Cocktail[] = [
     "menuTitle": "COCKTAIL SPF",
     "subtitle": "Encuentra tu protector ideal",
     "description": "Selección de los mejores protectores solares coreanos: fluido, hidratante y en barra.",
-    "icon": "☀️",
+    "icon": "🛡️",
     "mood": "Hydrated",
     "concerns": [
       "sunProtection",
@@ -1591,7 +1591,7 @@ export const mockCocktails: Cocktail[] = [
     "menuTitle": "COCKTAIL MASK CLUB",
     "subtitle": "Hoy quiero consentirme",
     "description": "Tratamiento de spa coreano en casa con mascarilla de biodermocolágeno y sheet masks botánicas.",
-    "icon": "🧖‍♀️",
+    "icon": "🕯️",
     "mood": "Glow",
     "concerns": [
       "dehydration",

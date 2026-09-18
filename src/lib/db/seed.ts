@@ -42,7 +42,7 @@ async function seed() {
         name: p.name,
         brand: p.brand,
         price: p.price.toString(),
-        routineStep: p.routineStep as "cleanser" | "serum" | "moisturizer" | "sunscreen" | "treatment",
+        routineStep: (["cleanser", "serum", "moisturizer", "sunscreen", "treatment"].includes(p.routineStep) ? p.routineStep : "treatment") as any,
         isMock: true,
         stock: 100,
       })),
@@ -67,7 +67,9 @@ async function seed() {
         name: c.name,
         shortDescription: c.shortDescription,
         description: c.shortDescription,
-        concerns: c.concerns as (typeof cocktails.$inferInsert)["concerns"],
+        concerns: (c.concerns || []).filter(con =>
+          ["acne", "darkSpots", "dehydration", "aging", "texture", "dullness", "pores", "oiliness"].includes(con)
+        ) as (typeof cocktails.$inferInsert)["concerns"],
       })),
     )
     .returning();

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import { CartProvider } from "@/lib/cart-context";
-import { ChatWidget } from "@/components/ai/chat-widget";
+import { ExternalChatBot } from "@/components/ai/external-chatbot";
+
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -85,8 +86,9 @@ export default function RootLayout({
       <body className={`${inter.variable} ${fraunces.variable} antialiased`}>
         <CartProvider>
           {children}
-          <ChatWidget />
+          <ExternalChatBot />
         </CartProvider>
+
       </body>
     </html>
   );

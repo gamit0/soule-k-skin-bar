@@ -168,8 +168,12 @@ export default async function ShotDetailPage({
                     className="group card card-hover flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6"
                   >
                     <div className="flex items-start gap-4 min-w-0">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-wine/8 text-sm font-bold text-wine">
-                        0{index + 1}
+                      <div className="flex h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-blush/20 shadow-soft">
+                        <img
+                          src={p.image || "https://images.unsplash.com/photo-1556228578-07257739599a?w=600"}
+                          alt={p.name}
+                          className="h-full w-full object-cover"
+                        />
                       </div>
                       <div className="min-w-0">
                         <div className="flex flex-wrap items-center gap-2">
