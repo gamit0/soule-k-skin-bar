@@ -3,9 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { track } from "@/lib/track";
-import { db } from "@/lib/db/client";
-import { products, productImages } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
 
 /* RoutineStep → color chip mapping. */
 const STEP_CHIP: Record<string, string> = {
@@ -37,22 +34,9 @@ export function FeaturedProducts() {
     setMounted(true);
     async function loadFeatured() {
       try {
-        const prods = await db.query.products.findMany({
-          limit: 8,
-          where: (p, { eq }) => eq(p.active, true),
-        });
-        const imgs = await db.query.productImages.findMany();
-
-        const data = prods.map(p => ({
-          slug: p.slug,
-          name: p.name,
-          brand: p.brand,
-          price: p.price,
-          routineStep: p.routineStep,
-          stock: p.stock,
-          ingredients: p.ingredients || [],
-          image: imgs.find(i => i.productId === p.id)?.url || "https://images.unsplash.com/photo-1556228578-07257739599a?w=600",
-        }));
+        const res = await fetch("/api/products/featured");
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
         setFeatured(data);
       } catch (e) {
         console.error("Error loading featured products:", e);
