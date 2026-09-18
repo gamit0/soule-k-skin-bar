@@ -12,21 +12,21 @@ import { mockCocktails } from "@/mock-data/cocktails";
 
 // URLs curadas con estética K-Beauty (Seoul Korea Skincare): minimalista, limpio, fondos claros.
 const K_BEAUTY_IMAGES = [
-  "https://images.unsplash.com/photo-1556228578-07257739599a?auto=format&fit=crop&q=80&w=800", // Serums/Drops
-  "https://images.unsplash.com/photo-1598440947619-27a8b4447ed3?auto=format&fit=crop&q=80&w=800", // Creams/Jars
+  "https://images.unsplash.com/photo-1598440947619-27a8b4447ed3?auto=format&fit=crop&q=80&w=800", // Clean skin
   "https://images.unsplash.com/photo-1612817288484-6f9C77376778?auto=format&fit=crop&q=80&w=800", // Glass bottles
-  "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800", // Minimalist white bottle
-  "https://images.unsplash.com/photo-1570172619644-797ed64c374a?auto=format&fit=crop&q=80&w=800", // Skincare arrangement
+  "https://images.unsplash.com/photo-1570172619644-797ed64c374a?auto=format&fit=crop&q=80&w=800", // Arrangement
+  "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800", // White bottle
   "https://images.unsplash.com/photo-1596755094514-f87e302776c7?auto=format&fit=crop&q=80&w=800", // Soft colors
-  "https://images.unsplash.com/photo-1601049541289-9b1b7677636a?auto=format&fit=crop&q=80&w=800", // Organic feel
-  "https://images.unsplash.com/photo-1556228578-07257739599a?auto=format&fit=crop&q=80&w=800", // Clear gel
-  "https://images.unsplash.com/photo-1608248597279-f99d167c97f7?auto=format&fit=crop&q=80&w=800", // Beauty products
-  "https://images.unsplash.com/photo-1598440947619-27a8b4447ed3?auto=format&fit=crop&q=80&w=800", // White cream
-  "https://images.unsplash.com/photo-1611080626916-07774bc6c3f2?auto=format&fit=crop&q=80&w=800", // Pastel tones
-  "https://images.unsplash.com/photo-1570172619644-797ed64c374a?auto=format&fit=crop&q=80&w=800", // Luxury minimal
+  "https://images.unsplash.com/photo-1601049541289-9b1b7677636a?auto=format&fit=crop&q=80&w=800", // Organic
+  "https://images.unsplash.com/photo-1556228578-07257739599a?auto=format&fit=crop&q=80&w=800", // Serums
+  "https://images.unsplash.com/photo-1608248597279-f99d167c97f7?auto=format&fit=crop&q=80&w=800", // Beauty
+  "https://images.unsplash.com/photo-1611080626916-07774bc6c3f2?auto=format&fit=crop&q=80&w=800", // Pastel
+  "https://images.unsplash.com/photo-1598440947619-27a8b4447ed3?auto=format&fit=crop&q=80&w=800", // Cream
+  "https://images.unsplash.com/photo-1570172619644-797ed64c374a?auto=format&fit=crop&q=80&w=800", // Luxury
   "https://images.unsplash.com/photo-1612817288484-6f9C77376778?auto=format&fit=crop&q=80&w=800", // Essence
-  "https://images.unsplash.com/photo-1596755094514-f87e302776c7?auto=format&fit=crop&q=80&w=800", // Aesthetic bottle
-  "https://images.unsplash.com/photo-1601049541289-9b1b7677636a?auto=format&fit=crop&q=80&w=800", // Skin glow
+  "https://images.unsplash.com/photo-1596755094514-f87e302776c7?auto=format&fit=crop&q=80&w=800", // Bottle
+  "https://images.unsplash.com/photo-1601049541289-9b1b7677636a?auto=format&fit=crop&q=80&w=800", // Glow
+  "https://images.unsplash.com/photo-1556228578-07257739599a?auto=format&fit=crop&q=80&w=800", // Gel
 ];
 
 async function seed() {
