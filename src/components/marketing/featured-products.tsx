@@ -8,9 +8,9 @@ import { track } from "@/lib/track";
 /* Simple curated image map for key hero products. */
 const PRODUCT_IMAGES: Record<string, string> = {
   "anua-heartleaf-quercetinol-pore-deep-cleansing-foam-150-ml":
-    "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=600",
-  "anua-aceite-limpiador-heartleaf-pore-control-200-ml":
     "https://images.unsplash.com/photo-1556228578-07257739599a?auto=format&fit=crop&q=80&w=600",
+  "anua-aceite-limpiador-heartleaf-pore-control-200-ml":
+    "https://images.unsplash.com/photo-1612817288484-6f9C77376778?auto=format&fit=crop&q=80&w=600",
   "beauty-of-joseon-green-plum-refreshing-cleanser-100-ml":
     "https://images.unsplash.com/photo-1601049541289-9b1b7677636a?auto=format&fit=crop&q=80&w=600",
   "anua-niacinamide-10-txa-4-serum-30-ml":
@@ -18,7 +18,7 @@ const PRODUCT_IMAGES: Record<string, string> = {
   "axis-y-dark-spot-correcting-glow-serum-50-ml":
     "https://images.unsplash.com/photo-1570172619644-797ed64c374a?auto=format&fit=crop&q=80&w=600",
   "isntree-serum-de-acido-hialuronico-ultra-low-molecular-hyaluronic-acid-serum-50-ml":
-    "https://images.unsplash.com/photo-1612817288484-6f9C77376778?auto=format&fit=crop&q=80&w=600",
+    "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=600",
   "torriden-dive-in-low-molecular-hyaluronic-acid-serum-50-ml":
     "https://images.unsplash.com/photo-1596755094514-f87e302776c7?auto=format&fit=crop&q=80&w=600",
   "numbuzin-serum-no5-glutathione-vitamin-concentrated-30-ml":
