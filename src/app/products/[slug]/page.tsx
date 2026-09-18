@@ -101,12 +101,8 @@ export default async function ProductDetailPage({
 
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
             {/* Image Section */}
-            <div className="relative aspect-square overflow-hidden rounded-3xl bg-blush/20 shadow-soft">
-              <img
-                src={mainImage}
-                alt={product.name}
-                className="h-full w-full object-cover"
-              />
+            <div className="relative aspect-square overflow-hidden rounded-3xl bg-blush/20 shadow-soft flex items-center justify-center">
+              <span className="text-plum-ink/20 font-display text-6xl">SK</span>
 
               {/* Routine step overlay */}
               <div className="absolute top-4 left-4">
@@ -179,7 +175,7 @@ export default async function ProductDetailPage({
               {/* CTAs */}
               <div className="mt-8 flex flex-col gap-3">
                 <AddToCartButton
-                  productId={product.slug}
+                  productId={product.id}
                   name={product.name}
                   price={Number(product.price)}
                 />

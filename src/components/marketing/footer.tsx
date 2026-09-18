@@ -20,7 +20,6 @@ export function Footer() {
         { label: "Contacto", href: "/contacto" },
         { label: "Envíos y devoluciones", href: "/envios" },
         { label: "Preguntas frecuentes", href: "/faq" },
-        { label: "Hablar con especialista", href: "https://wa.me/" },
       ],
     },
     {

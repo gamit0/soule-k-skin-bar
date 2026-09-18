@@ -2,38 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { mockFeaturedProducts } from "@/mock-data/products";
 import { track } from "@/lib/track";
-
-/* Simple curated image map for key hero products. */
-const PRODUCT_IMAGES: Record<string, string> = {
-  "anua-heartleaf-quercetinol-pore-deep-cleansing-foam-150-ml":
-    "https://images.unsplash.com/photo-1556228578-07257739599a?w=600",
-  "anua-aceite-limpiador-heartleaf-pore-control-200-ml":
-    "https://images.unsplash.com/photo-1612817288484-6f9c77376778?w=600",
-  "beauty-of-joseon-green-plum-refreshing-cleanser-100-ml":
-    "https://images.unsplash.com/photo-1601049541289-9b1b7677636a?w=600",
-  "celimax-limpiador-en-burbujas-para-acne-the-real-noni-150-ml":
-    "https://images.unsplash.com/photo-1598440947619-27a8b4447ed3?w=600",
-  "cosrx-low-ph-good-morning-gel-cleanser-150-ml":
-    "https://images.unsplash.com/photo-1570172619644-797ed64c374a?w=600",
-  "dr-althea-balsamo-limpiador-pure-grinding-cleansing-balm-50-ml":
-    "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600",
-  "etude-espuma-limpiadora-soon-jung-whip-cleanser-renewal-150-ml":
-    "https://images.unsplash.com/photo-1596755094514-f87e302776c7?w=600",
-  "haruharu-wonder-gel-limpiador-black-rice-moisture-55-soft-cleansing-gel-100-ml":
-    "https://images.unsplash.com/photo-1608248597279-f99d167c97f7?w=600",
-  "anua-niacinamide-10-txa-4-serum-30-ml":
-    "https://images.unsplash.com/photo-1556228578-07257739599a?w=600",
-  "axis-y-dark-spot-correcting-glow-serum-50-ml":
-    "https://images.unsplash.com/photo-1612817288484-6f9c77376778?w=600",
-  "isntree-serum-de-acido-hialuronico-ultra-low-molecular-hyaluronic-acid-serum-50-ml":
-    "https://images.unsplash.com/photo-1601049541289-9b1b7677636a?w=600",
-  "torriden-dive-in-low-molecular-hyaluronic-acid-serum-50-ml":
-    "https://images.unsplash.com/photo-1598440947619-27a8b4447ed3?w=600",
-  "numbuzin-serum-no5-glutathione-vitamin-concentrated-30-ml":
-    "https://images.unsplash.com/photo-1570172619644-797ed64c374a?w=600",
-};
+import { db } from "@/lib/db/client";
+import { products, productImages } from "@/lib/db/schema";
+import { eq } from "drizzle-orm";
 
 /* RoutineStep → color chip mapping. */
 const STEP_CHIP: Record<string, string> = {
@@ -50,7 +22,44 @@ const STEP_CHIP: Record<string, string> = {
 
 export function FeaturedProducts() {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const [featured, setFeatured] = useState<{
+    slug: string;
+    name: string;
+    brand: string;
+    price: string;
+    routineStep: string;
+    image: string;
+    stock: number;
+    ingredients: string[];
+  }[]>([]);
+
+  useEffect(() => {
+    setMounted(true);
+    async function loadFeatured() {
+      try {
+        const prods = await db.query.products.findMany({
+          limit: 8,
+          where: (p, { eq }) => eq(p.active, true),
+        });
+        const imgs = await db.query.productImages.findMany();
+
+        const data = prods.map(p => ({
+          slug: p.slug,
+          name: p.name,
+          brand: p.brand,
+          price: p.price,
+          routineStep: p.routineStep,
+          stock: p.stock,
+          ingredients: p.ingredients || [],
+          image: imgs.find(i => i.productId === p.id)?.url || "https://images.unsplash.com/photo-1556228578-07257739599a?w=600",
+        }));
+        setFeatured(data);
+      } catch (e) {
+        console.error("Error loading featured products:", e);
+      }
+    }
+    loadFeatured();
+  }, []);
 
   return (
     <section id="productos" className="shell section" aria-labelledby="products-heading">
@@ -73,11 +82,7 @@ export function FeaturedProducts() {
         role="list"
         aria-label="Productos destacados"
       >
-        {mockFeaturedProducts.map((product, i) => {
-          const img =
-            PRODUCT_IMAGES[product.slug] ??
-            PRODUCT_IMAGES[Object.keys(PRODUCT_IMAGES)[i % Object.keys(PRODUCT_IMAGES).length] ?? ""] ??
-            "";
+        {featured.map((product, i) => {
           const stepChip = STEP_CHIP[product.routineStep] || "chip";
 
           return (
@@ -89,17 +94,12 @@ export function FeaturedProducts() {
             >
               <Link
                 href={`/products/${product.slug}`}
-                onClick={() => track("product_viewed", { productId: product.id, name: product.name })}
+                onClick={() => track("product_viewed", { productId: product.slug, name: product.name })}
                 className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wine focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
               >
-                {/* Image */}
-                <div className="relative aspect-[3/4] overflow-hidden bg-blush/30">
-                  <img
-                    src={img}
-                    alt={product.name}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
+                {/* Image Placeholder */}
+                <div className="relative aspect-[3/4] overflow-hidden bg-blush/20 flex items-center justify-center">
+                  <span className="text-plum-ink/20 font-display text-4xl">SK</span>
                   {/* Stock badge */}
                   {(product.stock ?? 1) === 0 && (
                     <div className="absolute inset-0 flex items-center justify-center bg-plum-ink/70" role="alert">
@@ -136,7 +136,7 @@ export function FeaturedProducts() {
 
                   <div className="flex items-center justify-between pt-3 border-t border-plum-ink/5">
                     <span className="font-display text-xl font-bold text-wine">
-                      ${product.price.toFixed(2)}
+                      ${Number(product.price).toFixed(2)}
                       <span className="text-xs font-light text-plum-ink/60"> MXN</span>
                     </span>
                     <span className="text-[0.7rem] font-semibold text-plum-ink/50 group-hover:text-wine transition-colors">
@@ -151,7 +151,7 @@ export function FeaturedProducts() {
       </div>
 
       {/* View all CTA */}
-      <div className="mt-14 animate-fade-up" style={{ transitionDelay: `${mockFeaturedProducts.length * 80 + 200}ms` }}>
+      <div className="mt-14 animate-fade-up" style={{ transitionDelay: `${featured.length * 80 + 200}ms` }}>
         <div className="text-center">
           <Link
             href="/shots"

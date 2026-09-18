@@ -4,14 +4,14 @@ import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
 import { Header } from "@/components/marketing/header";
 import { Footer } from "@/components/marketing/footer";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { PaymentForm } from "@/components/checkout/payment-form";
 
-// Nota de implementación (Fase 6): esta pantalla arma la orden y llama a
-// /api/checkout para obtener el clientSecret. Falta conectar
-// @stripe/react-stripe-js (<Elements>, <PaymentElement>) para capturar la
-// tarjeta — se deja el hueco marcado abajo porque requiere la publishable
-// key real de tu cuenta de Stripe (ver DOC-PENDIENTES.md).
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "");
+
 export default function CheckoutPage() {
-  const { items, subtotal, clear } = useCart();
+  const { items, subtotal } = useCart();
   const [guestEmail, setGuestEmail] = useState("");
   const [guestPhone, setGuestPhone] = useState("");
   const [clientSecret, setClientSecret] = useState<string | null>(null);
@@ -56,6 +56,7 @@ export default function CheckoutPage() {
               value={guestEmail}
               onChange={(e) => setGuestEmail(e.target.value)}
               className="w-full rounded-lg border border-plum-ink/15 px-4 py-3"
+              required
             />
             <input
               type="tel"
@@ -84,19 +85,15 @@ export default function CheckoutPage() {
             <button
               onClick={startCheckout}
               disabled={loading || items.length === 0 || !guestEmail}
-              className="mt-8 w-full rounded-full bg-wine px-6 py-3 text-ivory transition-colors hover:bg-wine-dark disabled:opacity-40"
+              className="mt-8 w-full rounded-full bg-wine px-6 py-3 text-ivory transition-colors hover:bg-wine-dark disabled:opacity-40 font-semibold"
             >
               {loading ? "Preparando pago…" : "Continuar al pago"}
             </button>
           ) : (
-            <div className="mt-8 rounded-lg border border-plum-ink/15 p-4 text-sm text-plum-ink/70">
-              {/* TODO (pendiente de tu lado): montar <Elements> +
-                 <PaymentElement> de @stripe/react-stripe-js aquí usando
-                 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY y este clientSecret.
-                 Ver DOC-PENDIENTES.md. */}
-              Pago listo para capturarse (clientSecret generado). Falta
-              montar el formulario de tarjeta de Stripe Elements — ver
-              DOC-PENDIENTES.md.
+            <div className="mt-8">
+              <Elements stripe={stripePromise} options={{ clientSecret }}>
+                <PaymentForm />
+              </Elements>
             </div>
           )}
         </div>
