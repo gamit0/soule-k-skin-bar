@@ -21,6 +21,6 @@ export default async function ContactRedirectPage({
     .values({ type: "whatsapp_click", sessionId: randomUUID(), metadata: { context } })
     .catch(() => {});
 
-  const link = provider.buildContactLink({ to: "", text });
-  redirect(link);
+const link = provider.buildContactLink({ to: "", text });
+redirect(link as any);
 }

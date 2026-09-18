@@ -1,7 +1,7 @@
 import { getActiveQuizQuestions } from "@/server/repositories/quiz-repository";
 import { QuizRunner } from "@/components/quiz/quiz-runner";
 import { Header } from "@/components/marketing/header";
-
+export const dynamic = 'force-dynamic';
 export const metadata = { title: "Skin Quiz — Soule K Skin Bar" };
 
 export default async function QuizPage() {

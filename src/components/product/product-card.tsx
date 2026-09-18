@@ -1,10 +1,7 @@
 import Link from "next/link";
-import type { products } from "@/lib/db/schema";
-import type { InferSelectModel } from "drizzle-orm";
+import type { Product } from "@/types";
 
-type Product = InferSelectModel<typeof products>;
-
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product }: { product: Partial<Product> }) {
   return (
     <Link href={`/products/${product.slug}`} className="group block">
       <div className="aspect-[3/4] rounded-2xl bg-blush/30 transition-colors group-hover:bg-blush/50" />

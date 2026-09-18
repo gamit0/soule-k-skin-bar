@@ -1,34 +1,28 @@
-import { getActiveProducts } from "@/server/repositories/product-repository";
-import { ProductCard } from "@/components/product/product-card";
 import { Header } from "@/components/marketing/header";
 import { Footer } from "@/components/marketing/footer";
+import { ProductCard } from "@/components/product/product-card";
+import { mockFeaturedProducts } from "@/mock-data/products";
 
-export const metadata = { title: "Catálogo — Soule K Skin Bar" };
-
-export default async function ProductsPage() {
-  const products = await getActiveProducts();
-
+export default function ProductsPage() {
   return (
     <>
       <Header />
       <main className="px-6 py-16 sm:px-10 sm:py-24">
         <div className="mx-auto max-w-6xl">
-          <h1 className="font-[family-name:var(--font-display)] text-4xl text-plum-ink">
-            Catálogo
-          </h1>
-
-          {products.length === 0 ? (
-            <p className="mt-8 text-plum-ink/60">
-              Todavía no hay productos cargados. Ve al panel admin para
-              agregar el primero.
+          <div className="mb-12 text-center">
+            <h1 className="font-[family-name:var(--font-display)] text-4xl text-plum-ink sm:text-5xl">
+              Catálogo de Productos
+            </h1>
+            <p className="mt-4 text-plum-ink/60 text-lg">
+              Toda la magia del K-Beauty seleccionada para ti.
             </p>
-          ) : (
-            <div className="mt-10 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          )}
+          </div>
+
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {mockFeaturedProducts.map((product) => (
+              <ProductCard key={product.slug} product={product} />
+            ))}
+          </div>
         </div>
       </main>
       <Footer />

@@ -31,14 +31,19 @@ export const concernEnum = pgEnum("concern", [
   "dullness",
   "pores",
   "oiliness",
+  "sensitive",
+  "redness",
 ]);
 
 export const routineStepEnum = pgEnum("routine_step", [
   "cleanser",
+  "toner",
   "serum",
+  "eye_cream",
   "moisturizer",
   "sunscreen",
   "treatment",
+  "special_care",
 ]);
 
 export const routineUsageEnum = pgEnum("routine_usage", ["AM", "PM", "BOTH"]);

@@ -1,7 +1,4 @@
-import type { products } from "@/lib/db/schema";
-import type { InferSelectModel } from "drizzle-orm";
-
-type Product = InferSelectModel<typeof products>;
+import { Product } from "@/types";
 
 export function RoutineList({
   title,
@@ -18,9 +15,9 @@ export function RoutineList({
       <ol className="mt-4 space-y-3">
         {products.map((product, i) => (
           <li key={product.id} className="flex items-baseline gap-3">
-            <span className="text-sm text-gold">{i + 1}</span>
+            <span className="text-sm font-semibold text-wine">{i + 1}</span>
             <div>
-              <p className="text-plum-ink">{product.name}</p>
+              <p className="text-plum-ink font-medium">{product.name}</p>
               <p className="text-xs text-plum-ink/50">{product.brand}</p>
             </div>
           </li>

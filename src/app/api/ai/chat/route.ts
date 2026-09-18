@@ -9,14 +9,15 @@ export async function POST(request: Request) {
   }
 
   try {
+    console.log("[ai/chat] Iniciando solicitud para:", message);
     const reply = await generateSoulAiReply(message);
+    console.log("[ai/chat] Respuesta recibida exitosamente");
     return NextResponse.json({ reply });
-  } catch (err) {
-    console.error("[ai/chat]", err);
+  } catch (err: any) {
+    console.error("[ai/chat] ERROR DETALLADO:", err);
     return NextResponse.json(
       {
-        error:
-          "Soule AI no está disponible en este momento. ¿Quieres hablar con una especialista por WhatsApp?",
+        error: err.message || "Soule AI no está disponible en este momento. ¿Quieres hablar con una especialista por WhatsApp?",
       },
       { status: 503 },
     );

@@ -50,44 +50,61 @@ REGLAS ESTRICTAS:
   cercana, sin exceso de emojis.`;
 
 export async function generateSoulAiReply(userMessage: string) {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    throw new Error(
-      "ANTHROPIC_API_KEY no está definida. Configúrala para activar Soule AI (ver DOC-PENDIENTES.md).",
-    );
-  }
-
   const context = await buildGroundedContext();
 
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": process.env.ANTHROPIC_API_KEY,
-      "anthropic-version": "2023-06-01",
-    },
-    body: JSON.stringify({
-      model: "claude-sonnet-5",
-      max_tokens: 500,
-      system: SYSTEM_PROMPT,
-      messages: [
-        {
-          role: "user",
-          content: `CONTEXTO (catálogo real, no inventes nada fuera de esto):\n${JSON.stringify(context)}\n\nMensaje del usuario: ${userMessage}`,
-        },
-      ],
-    }),
-  });
+  const getSimulationResponse = () => {
+    const hasProducts = context.products.length > 0;
+    const firstProduct = hasProducts ? context.products[0] : null;
 
-  if (!response.ok) {
-    throw new Error(`Anthropic API error: ${response.status}`);
+    return `(Modo Simulación) ¡Hola! Como soy una IA, necesito una llave API activa con créditos para responderte en tiempo real, pero así es como respondería:
+
+Basándome en tu perfil, te recomiendo empezar con el ${firstProduct ? firstProduct.name : "nuestro serum hidratante"}. Es ideal para tu tipo de piel y se aplica en la rutina ${firstProduct ? firstProduct.routineStep : "AM"}.
+
+¿Te gustaría que te ayude a añadirlo al carrito o prefieres hablar con una especialista humana?`;
+  };
+
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.warn("[Soule AI] ANTHROPIC_API_KEY no detectada. Usando modo de simulación.");
+    return getSimulationResponse();
   }
 
-  const data = await response.json();
-  const text = data.content
-    ?.map((block: { type: string; text?: string }) =>
-      block.type === "text" ? block.text : "",
-    )
-    .join("");
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": process.env.ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify({
+        model: "claude-3-5-sonnet-20240620",
+        max_tokens: 500,
+        system: SYSTEM_PROMPT,
+        messages: [
+          {
+            role: "user",
+            content: `CONTEXTO (catálogo real, no inventes nada fuera de esto):\n${JSON.stringify(context)}\n\nMensaje del usuario: ${userMessage}`,
+          },
+        ],
+      }),
+    });
 
-  return text ?? "No pude generar una respuesta, intenta de nuevo.";
+    if (!response.ok) {
+      const errorData = await response.text();
+      console.error("[Soule AI] Error de API, cayendo a simulación:", response.status, errorData);
+      return getSimulationResponse();
+    }
+
+    const data = await response.json();
+    const text = data.content
+      ?.map((block: { type: string; text?: string }) =>
+        block.type === "text" ? block.text : "",
+      )
+      .join("");
+
+    return text ?? getSimulationResponse();
+  } catch (error) {
+    console.error("[Soule AI] Exception, cayendo a simulación:", error);
+    return getSimulationResponse();
+  }
 }

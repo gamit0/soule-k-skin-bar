@@ -11,12 +11,31 @@
 # env
 .env
 .env*.local
+.ev
 
 # drizzle
 /drizzle/meta
 
-# misc
+# data extraction / temp files
+*.py
+*.pdf
+*.txt
+*.docx
+parsed_*.json
+clean_*.json
+logs/
+
+# IDE / Claude / Build
 .DS_Store
 *.pem
 npm-debug.log*
 next-env.d.ts
+.claude/
+MEMORY.md
+tsconfig.tsbuildinfo
+*.vbs
+/start-hidden.js
+
+# Images in root
+/*.png
+
