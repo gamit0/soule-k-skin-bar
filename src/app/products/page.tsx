@@ -10,16 +10,26 @@ export default async function ProductsPage() {
 
   const productImages = await db.query.productImages.findMany();
 
-  const productsWithImages = productsList.map(product => {
-    const img = productImages.find(i => i.productId === product.id)?.url ||
+  const productsWithImages = productsList.map(p => {
+    const img = productImages.find(i => i.productId === p.id)?.url ||
                 "https://images.unsplash.com/photo-1556228578-07257739599a?w=600";
-    return { ...product, image: img };
+
+    return {
+      ...p,
+      // Convert Drizzle nulls to undefined for TS compatibility with Product interface
+      description: p.description ?? undefined,
+      shortDescription: p.shortDescription ?? undefined,
+      compareAtPrice: p.compareAtPrice ? Number(p.compareAtPrice) : undefined,
+      categoryId: p.categoryId ?? undefined,
+      price: Number(p.price),
+      image: img,
+    };
   });
 
   return (
     <>
       <Header />
-      <main className="px-6 py-16 sm:px-en_env_10 sm:py-24">
+      <main className="px-6 py-16 sm:px-10 sm:py-24">
         <div className="mx-auto max-w-6xl">
           <div className="mb-12 text-center">
             <h1 className="font-[family-name:var(--font-display)] text-4xl text-plum-ink sm:text-5xl">

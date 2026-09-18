@@ -181,7 +181,7 @@ export default async function ProductDetailPage({
                 <AddToCartButton
                   productId={product.slug}
                   name={product.name}
-                  price={product.price}
+                  price={Number(product.price)}
                 />
                 {whatsappUrl && (
                   <a
