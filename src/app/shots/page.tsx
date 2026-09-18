@@ -19,6 +19,16 @@ const CATEGORY_EMOJI: Record<string, string> = {
   "Piel sensible": "🌿",
 };
 
+// Visual palette for moodboards based on category
+const CATEGORY_PALETTE: Record<string, { bg: string; accent: string; secondary: string }> = {
+  "Anti-Age": { bg: "bg-plum-ink", accent: "bg-gold", secondary: "bg-wine" },
+  Acné: { bg: "bg-wine", accent: "bg-blush", secondary: "bg-plum-ink" },
+  Hidratación: { bg: "bg-aqua", accent: "bg-ivory", secondary: "bg-wine" },
+  "Piel Grasa": { bg: "bg-sage", accent: "bg-gold", secondary: "bg-plum-ink" },
+  "Puntos Negros": { bg: "bg-gold", accent: "bg-wine", secondary: "bg-blush" },
+  "Piel sensible": { bg: "bg-blush", accent: "bg-sage", secondary: "bg-plum-ink" },
+};
+
 export default async function ShotsMenuPage() {
   const shots = await getActiveShots();
 
@@ -42,10 +52,12 @@ export default async function ShotsMenuPage() {
             </p>
           </div>
 
-          {/* Grid of Shots */}
+          {/* Grid of Shots - Collage style */}
           <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {shots.map((shot, i) => {
               const products = shot.products ?? [];
+              const palette = CATEGORY_PALETTE[shot.category] || { bg: "bg-plum-ink", accent: "bg-wine", secondary: "bg-blush" };
+
               return (
                 <Link
                   key={shot.id}
@@ -53,13 +65,27 @@ export default async function ShotsMenuPage() {
                   className="group card card-hover flex flex-col justify-between overflow-hidden animate-fade-up"
                   style={{ transitionDelay: `${100 + i * 80}ms` }}
                 >
-                  {/* Top accent bar */}
-                  <div className="h-1 w-full bg-gradient-to-r from-wine/40 to-blush/60" />
+                  {/* Visual Collage Header */}
+                  <div className={`relative h-40 w-full ${palette.bg} overflow-hidden p-4`}>
+                    <div className="absolute inset-0 opacity-30" style={{ backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`, backgroundSize: '24px 24px' }} />
+
+                    <div className="relative h-full w-full grid grid-cols-3 grid-rows-2 gap-2">
+                      <div className={`col-span-2 row-span-2 rounded-lg ${palette.accent} overflow-hidden relative`}>
+                        <div className="absolute inset-0 flex items-center justify-center text-4xl opacity-40">
+                          {shot.icon}
+                        </div>
+                        <div className="absolute bottom-2 right-2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-xs font-bold text-white">
+                          {shot.category.slice(0, 3).toUpperCase()}
+                        </div>
+                      </div>
+                      <div className={`rounded-lg ${palette.secondary} opacity-80 transition-transform group-hover:scale-110 duration-500`} />
+                      <div className={`rounded-lg ${palette.bg} border border-white/20 opacity-60 transition-transform group-hover:scale-110 duration-700`} />
+                    </div>
+                  </div>
 
                   <div className="p-6 sm:p-7">
-                    {/* Icon + Category */}
                     <div className="flex items-start justify-between">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-wine/8 text-2xl group-hover:bg-wine/12 transition-colors">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-wine/8 text-xl group-hover:bg-wine/12 transition-colors">
                         {shot.icon}
                       </div>
                       <span className="chip chip-wine text-[0.6rem]">
