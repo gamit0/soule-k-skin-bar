@@ -75,8 +75,18 @@ export default function CheckoutPage() {
           </div>
 
           <div className="mt-6 flex items-center justify-between border-t border-plum-ink/10 pt-4">
-            <p className="text-plum-ink/70">Total</p>
-            <p className="text-lg text-plum-ink">${subtotal} MXN</p>
+            <p className="text-plum-ink/70">Subtotal</p>
+            <p className="text-lg text-plum-ink">${subtotal.toFixed(2)} MXN</p>
+          </div>
+          <div className="mt-2 flex items-center justify-between text-sm text-plum-ink/70">
+            <p>Envío</p>
+            <p className="font-semibold">
+              {subtotal >= 1200 ? "GRATIS" : "$150.00 MXN"}
+            </p>
+          </div>
+          <div className="mt-2 flex items-center justify-between border-t border-plum-ink/10 pt-4">
+            <p className="text-plum-ink">Total</p>
+            <p className="text-lg font-bold text-plum-ink">${(subtotal + (subtotal >= 1200 ? 0 : 150)).toFixed(2)} MXN</p>
           </div>
 
           {error && <p className="mt-4 text-sm text-wine">{error}</p>}

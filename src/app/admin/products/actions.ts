@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/db/client";
 import { products } from "@/lib/db/schema";
 import { requireAdmin } from "@/lib/require-admin";
+import { skinTypeEnum, concernEnum, routineStepEnum, routineUsageEnum } from "@/lib/db/schema";
 
 export async function createProduct(formData: FormData) {
   await requireAdmin(["super_admin", "editor"]);
@@ -29,9 +30,40 @@ export async function createProduct(formData: FormData) {
       | "moisturizer"
       | "sunscreen"
       | "treatment") ?? "serum",
+    usage: (formData.get("usage") as "AM" | "PM" | "BOTH") ?? "BOTH",
     stock: Number(formData.get("stock") ?? 0),
     isMock: false,
+    skinTypes: formData.getAll("skinTypes") as (typeof skinTypeEnum.enumValues)[number][],
+    concerns: formData.getAll("concerns") as (typeof concernEnum.enumValues)[number][],
   });
+
+  revalidatePath("/admin/products");
+}
+
+export async function updateProduct(id: string, formData: FormData) {
+  await requireAdmin(["super_admin", "editor"]);
+
+  await db
+    .update(products)
+    .set({
+      name: formData.get("name") as string,
+      brand: formData.get("brand") as string,
+      price: formData.get("price") as string,
+      shortDescription: formData.get("shortDescription") as string,
+      description: formData.get("description") as string,
+      routineStep: (formData.get("routineStep") as
+        | "cleanser"
+        | "serum"
+        | "moisturizer"
+        | "sunscreen"
+        | "treatment") ?? "serum",
+      usage: (formData.get("usage") as "AM" | "PM" | "BOTH") ?? "BOTH",
+      stock: Number(formData.get("stock") ?? 0),
+      active: formData.get("active") === "on",
+      skinTypes: formData.getAll("skinTypes") as (typeof skinTypeEnum.enumValues)[number][],
+      concerns: formData.getAll("concerns") as (typeof concernEnum.enumValues)[number][],
+    })
+    .where(eq(products.id, id));
 
   revalidatePath("/admin/products");
 }

@@ -1,6 +1,6 @@
 import { db } from "@/lib/db/client";
 import { eq } from "drizzle-orm";
-import { cocktails, cocktailProducts, products, productImages } from "@/lib/db/schema";
+import { shots, shotProducts, products, productImages } from "@/lib/db/schema";
 import { Shot, Product } from "@/types";
 
 function sanitizeProduct(p: any): Product {
@@ -27,8 +27,8 @@ function sanitizeProduct(p: any): Product {
 }
 
 export async function getActiveShots(): Promise<Shot[]> {
-  const result = await db.query.cocktails.findMany({
-    where: (c, { eq }) => eq(c.active, true),
+  const result = await db.query.shots.findMany({
+    where: (s, { eq }) => eq(s.active, true),
     with: {
       productLinks: {
         with: {
@@ -42,22 +42,22 @@ export async function getActiveShots(): Promise<Shot[]> {
     },
   });
 
-  return result.map((c) => ({
-    id: c.id,
-    slug: c.slug,
-    name: c.name,
-    menuTitle: c.name,
-    icon: c.icon || "✨",
-    subtitle: c.shortDescription || "",
-    description: c.description || "",
-    category: "Personalized",
-    mood: "Glow",
-    active: c.active,
-    skinTypes: c.skinTypes,
-    concerns: c.concerns,
-    productIds: c.productLinks.map(pl => pl.product.id),
-    totalPrice: c.productLinks.reduce((sum, pl) => sum + Number(pl.product.price), 0),
-    products: c.productLinks.map((pl) => {
+  return result.map((s) => ({
+    id: s.id,
+    slug: s.slug,
+    name: s.name,
+    menuTitle: s.menuTitle || s.name,
+    icon: s.icon || "✨",
+    subtitle: s.subtitle || "",
+    description: s.description || "",
+    category: s.category || "Personalized",
+    mood: s.mood || "Glow",
+    active: s.active,
+    skinTypes: s.skinTypes,
+    concerns: s.concerns,
+    productIds: s.productLinks.map(pl => pl.product.id),
+    totalPrice: s.productLinks.reduce((sum, pl) => sum + Number(pl.product.price), 0),
+    products: s.productLinks.map((pl) => {
       const product = sanitizeProduct(pl.product);
       return {
         ...product,
@@ -68,8 +68,8 @@ export async function getActiveShots(): Promise<Shot[]> {
 }
 
 export async function getShotBySlug(slug: string): Promise<Shot | null> {
-  const result = await db.query.cocktails.findFirst({
-    where: (c, { eq }) => eq(c.slug, slug),
+  const result = await db.query.shots.findFirst({
+    where: (s, { eq }) => eq(s.slug, slug),
     with: {
       productLinks: {
         with: {
@@ -89,12 +89,12 @@ export async function getShotBySlug(slug: string): Promise<Shot | null> {
     id: result.id,
     slug: result.slug,
     name: result.name,
-    menuTitle: result.name,
+    menuTitle: result.menuTitle || result.name,
     icon: result.icon || "✨",
-    subtitle: result.shortDescription || "",
+    subtitle: result.subtitle || "",
     description: result.description || "",
-    category: "Personalized",
-    mood: "Glow",
+    category: result.category || "Personalized",
+    mood: result.mood || "Glow",
     active: result.active,
     skinTypes: result.skinTypes,
     concerns: result.concerns,

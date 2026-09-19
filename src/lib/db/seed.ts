@@ -6,9 +6,15 @@
 import "dotenv/config";
 import { db } from "./client";
 import { sql } from "drizzle-orm";
-import { products, cocktails, cocktailProducts, quizQuestions, quizOptions, quizOptionWeights, productImages } from "./schema";
+import { products, cocktails, cocktailProducts, quizQuestions, quizOptions, quizOptionWeights, productImages, shots, shotProducts, concernEnum, skinTypeEnum } from "./schema";
 import { mockProducts } from "@/mock-data/products";
 import { mockCocktails } from "@/mock-data/cocktails";
+import { mockShots } from "@/mock-data/shots";
+import { fallbackQuizQuestions } from "@/mock-data/quiz-fallback";
+import type { SkinType } from "@/lib/db/schema";
+
+const VALID_CONCERNS = concernEnum.enumValues;
+const VALID_SKIN_TYPES = skinTypeEnum.enumValues;
 
 // URLs curadas con estética K-Beauty (Seoul Korea Skincare): minimalista, limpio, fondos claros.
 const K_BEAUTY_IMAGES = [
@@ -31,7 +37,7 @@ const K_BEAUTY_IMAGES = [
 
 async function seed() {
   console.log("Limpiando base de datos...");
-  await db.execute(sql`TRUNCATE TABLE quiz_option_weights, quiz_options, quiz_questions, cocktail_products, cocktails, product_images, products CASCADE`);
+  await db.execute(sql`TRUNCATE TABLE quiz_option_weights, quiz_options, quiz_questions, shot_products, shots, cocktail_products, cocktails, product_images, products CASCADE`);
 
   console.log("Seeding productos...");
   const insertedProducts = await db
@@ -41,10 +47,20 @@ async function seed() {
         slug: p.slug,
         name: p.name,
         brand: p.brand,
+        description: p.description,
+        shortDescription: p.shortDescription,
         price: p.price.toString(),
-        routineStep: (["cleanser", "serum", "moisturizer", "sunscreen", "treatment"].includes(p.routineStep) ? p.routineStep : "treatment") as any,
+        compareAtPrice: p.compareAtPrice?.toString(),
+        categoryId: null, // Se puede poblar si se crean categorías
+        skinTypes: (p.skinTypes as string[]).filter(st => VALID_SKIN_TYPES.includes(st as any)) as unknown as SkinType[],
+        concerns: (p.concerns as string[]).filter(c => VALID_CONCERNS.includes(c as any)) as unknown as (typeof concernEnum.enumValues)[number][],
+        ingredients: p.ingredients,
+        benefits: p.benefits,
+        routineStep: (["cleanser", "serum", "moisturizer", "sunscreen", "treatment", "toner", "eye_cream", "special_care"].includes(p.routineStep) ? p.routineStep : "treatment") as any,
+        usage: p.usage,
+        stock: p.stock ?? 100,
+        active: p.active ?? true,
         isMock: true,
-        stock: 100,
       })),
     )
     .returning();
@@ -66,17 +82,17 @@ async function seed() {
         slug: c.slug,
         name: c.name,
         shortDescription: c.shortDescription,
-        description: c.shortDescription,
-        concerns: (c.concerns || []).filter(con =>
-          ["acne", "darkSpots", "dehydration", "aging", "texture", "dullness", "pores", "oiliness"].includes(con)
-        ) as (typeof cocktails.$inferInsert)["concerns"],
+        description: c.description,
+        icon: c.icon,
+        image: c.image,
+        concerns: (c.concerns || []).filter(con => VALID_CONCERNS.includes(con as any)) as unknown as (typeof concernEnum.enumValues)[number][],
+        skinTypes: (c.skinTypes || []).filter(st => VALID_SKIN_TYPES.includes(st as any)) as unknown as SkinType[],
+        active: c.active ?? true,
       })),
     )
     .returning();
 
   console.log("Asociando productos a cocktails...");
-
-  // Create a map of mockProductId -> dbProductId
   const productMap = new Map<string, string>();
   mockProducts.forEach((p, i) => {
     if (insertedProducts[i]) {
@@ -107,29 +123,96 @@ async function seed() {
     }
   }
 
-  console.log("Seeding pregunta de ejemplo del quiz...");
-  const [question] = await db
-    .insert(quizQuestions)
-    .values({ text: "¿Cuál es tu principal preocupación?", type: "single", order: 1 })
-    .returning();
-
-  const options = await db
-    .insert(quizOptions)
+  console.log("Seeding shots...");
+  const insertedShots = await db
+    .insert(shots)
     .values(
-      insertedCocktails.slice(0, 4).map((c) => ({
-        questionId: question!.id,
-        label: c.name,
-        value: c.slug,
+      mockShots.map((s) => ({
+        slug: s.slug,
+        name: s.name,
+        menuTitle: s.menuTitle,
+        subtitle: s.subtitle,
+        category: s.category,
+        description: s.description,
+        icon: s.icon,
+        mood: s.mood,
+        concerns: (s.concerns as string[]).filter(c => VALID_CONCERNS.includes(c as any)) as unknown as (typeof concernEnum.enumValues)[number][],
+        skinTypes: (s.skinTypes as string[]).filter(st => VALID_SKIN_TYPES.includes(st as any)) as unknown as SkinType[],
+        active: s.active ?? true,
       })),
     )
     .returning();
 
-  for (let i = 0; i < options.length; i++) {
-    await db.insert(quizOptionWeights).values({
-      optionId: options[i]!.id,
-      cocktailId: insertedCocktails[i]!.id,
-      weight: 10,
-    });
+  console.log("Asociando productos a shots...");
+  const shotMap = new Map<string, string>();
+  mockShots.forEach((ms, i) => {
+    if (insertedShots[i]) {
+      shotMap.set(ms.id, insertedShots[i].id);
+    }
+  });
+
+  for (const shot of insertedShots) {
+    const mockShot = mockShots.find(ms => ms.slug === shot.slug);
+    if (!mockShot || !mockShot.products) continue;
+
+    const associations = mockShot.products.map((p, index) => {
+      const dbProductId = productMap.get(p.id);
+      if (!dbProductId) {
+        console.warn(`Product ${p.id} not found in database for shot ${shot.slug}`);
+        return null;
+      }
+      return {
+        shotId: shot.id,
+        productId: dbProductId,
+        order: index,
+      };
+    }).filter(Boolean);
+
+    if (associations.length > 0) {
+      await db.insert(shotProducts).values(associations as any);
+    }
+  }
+
+  console.log("Seeding quiz questions...");
+  for (const q of fallbackQuizQuestions) {
+    const [question] = await db
+      .insert(quizQuestions)
+      .values({
+        order: q.order,
+        text: q.text ?? q.title,
+        type: q.type,
+        active: q.active,
+      })
+      .returning();
+
+    if (!question) continue;
+
+    for (const opt of q.options) {
+      const [option] = await db
+        .insert(quizOptions)
+        .values({
+          questionId: question.id,
+          label: opt.label,
+          value: opt.value,
+        })
+        .returning();
+
+      if (!option) continue;
+
+      // Insert shot weights
+      if (opt.shotWeights) {
+        for (const [shotId, weight] of Object.entries(opt.shotWeights)) {
+          const dbShotId = shotMap.get(shotId);
+          if (dbShotId) {
+            await db.insert(quizOptionWeights).values({
+              optionId: option.id,
+              shotId: dbShotId,
+              weight,
+            });
+          }
+        }
+      }
+    }
   }
 
   console.log("Seed completo ✅");

@@ -18,7 +18,9 @@ export class StripePaymentProvider implements PaymentProvider {
     if (!process.env.STRIPE_SECRET_KEY) {
       throw new Error("STRIPE_SECRET_KEY no está definida.");
     }
-    this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+    this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: "2025-02-24.acacia",
+    });
   }
 
   async createPaymentIntent(

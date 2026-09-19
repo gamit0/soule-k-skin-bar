@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import { CartProvider } from "@/lib/cart-context";
-import { ExternalChatBot } from "@/components/ai/external-chatbot";
+import { ElevenLabsChatBot } from "@/components/ai/elevenlabs-chatbot";
 
 import "./globals.css";
 
@@ -86,7 +86,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${fraunces.variable} antialiased`}>
         <CartProvider>
           {children}
-          <ExternalChatBot />
+          <ElevenLabsChatBot isOpen={true} />
         </CartProvider>
 
       </body>

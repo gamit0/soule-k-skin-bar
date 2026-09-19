@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChatBot } from "@/components/ai/chat-bot";
+import { ElevenLabsChatBot } from "@/components/ai/elevenlabs-chatbot";
 import { WhatsAppService } from "@/server/services/whatsapp-service";
 
 type ConsultationStep = "initial" | "selection" | "web_bot";
@@ -117,10 +117,9 @@ export function ConsultationSection({
         )}
       </div>
 
-      <ChatBot
+      <ElevenLabsChatBot
         isOpen={isChatOpen}
         onClose={() => setIsChatOpen(false)}
-        cocktailName={cocktailName}
       />
     </>
   );

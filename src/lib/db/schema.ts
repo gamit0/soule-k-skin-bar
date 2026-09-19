@@ -22,6 +22,8 @@ export const skinTypeEnum = pgEnum("skin_type", [
   "sensitive",
 ]);
 
+export type SkinType = (typeof skinTypeEnum.enumValues)[number];
+
 export const concernEnum = pgEnum("concern", [
   "acne",
   "darkSpots",
@@ -154,19 +156,51 @@ export const quizOptions = pgTable("quiz_options", {
   value: varchar("value", { length: 60 }).notNull(),
 });
 
-// Peso de cada opción hacia cada cocktail — el corazón del scoring engine.
+// ── Shots ────────────────────────────────────────────────────────────────
+
+export const shots = pgTable("shots", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  slug: varchar("slug", { length: 160 }).notNull().unique(),
+  name: varchar("name", { length: 160 }).notNull(),
+  menuTitle: varchar("menu_title", { length: 160 }),
+  subtitle: varchar("subtitle", { length: 280 }),
+  category: varchar("category", { length: 120 }),
+  description: text("description"),
+  icon: varchar("icon", { length: 60 }),
+  mood: varchar("mood", { length: 20 }).notNull(), // SkinMood: Calm, Glow, Clean, Hydrated, Firm
+  concerns: concernEnum("concerns").array().notNull().default([]),
+  skinTypes: skinTypeEnum("skin_types").array().notNull().default([]),
+  active: boolean("active").notNull().default(true),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const shotProducts = pgTable(
+  "shot_products",
+  {
+    shotId: uuid("shot_id")
+      .notNull()
+      .references(() => shots.id, { onDelete: "cascade" }),
+    productId: uuid("product_id")
+      .notNull()
+      .references(() => products.id, { onDelete: "cascade" }),
+    order: integer("order").notNull().default(0),
+  },
+  (t) => [primaryKey({ columns: [t.shotId, t.productId] })],
+);
+
+// Peso de cada opción hacia cada shot — el corazón del scoring engine.
 export const quizOptionWeights = pgTable(
   "quiz_option_weights",
   {
     optionId: uuid("option_id")
       .notNull()
       .references(() => quizOptions.id, { onDelete: "cascade" }),
-    cocktailId: uuid("cocktail_id")
+    shotId: uuid("shot_id")
       .notNull()
-      .references(() => cocktails.id, { onDelete: "cascade" }),
+      .references(() => shots.id, { onDelete: "cascade" }),
     weight: integer("weight").notNull().default(0),
   },
-  (t) => [primaryKey({ columns: [t.optionId, t.cocktailId] })],
+  (t) => [primaryKey({ columns: [t.optionId, t.shotId] })],
 );
 
 // ── Customers & Recommendations ───────────────────────────────────────
@@ -336,9 +370,28 @@ export const quizOptionWeightsRelations = relations(
       fields: [quizOptionWeights.optionId],
       references: [quizOptions.id],
     }),
-    cocktail: one(cocktails, {
-      fields: [quizOptionWeights.cocktailId],
-      references: [cocktails.id],
+    shot: one(shots, {
+      fields: [quizOptionWeights.shotId],
+      references: [shots.id],
+    }),
+  }),
+);
+
+export const shotsRelations = relations(shots, ({ many }) => ({
+  productLinks: many(shotProducts),
+  optionWeights: many(quizOptionWeights),
+}));
+
+export const shotProductsRelations = relations(
+  shotProducts,
+  ({ one }) => ({
+    shot: one(shots, {
+      fields: [shotProducts.shotId],
+      references: [shots.id],
+    }),
+    product: one(products, {
+      fields: [shotProducts.productId],
+      references: [products.id],
     }),
   }),
 );

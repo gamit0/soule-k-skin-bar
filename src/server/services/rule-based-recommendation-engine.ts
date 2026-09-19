@@ -1,8 +1,6 @@
 import { db } from "@/lib/db/client";
-import { mockShots } from "@/mock-data/shots";
-import { mockCocktails } from "@/mock-data/cocktails";
-import { fallbackQuizQuestions } from "@/mock-data/quiz-fallback";
-import { mockProducts } from "@/mock-data/products";
+import { quizQuestions, quizOptions, quizOptionWeights, shots, cocktails, cocktailProducts, products } from "@/lib/db/schema";
+import { eq, inArray } from "drizzle-orm";
 import { resolveCocktailSlug } from "@/mock-data/shot-cocktail-map";
 import type {
   QuizAnswer,
@@ -14,6 +12,29 @@ import type {
 } from "@/types";
 
 const SECONDARY_THRESHOLD_RATIO = 0.55;
+
+function sanitizeProduct(p: any): Product {
+  return {
+    id: p.id,
+    slug: p.slug,
+    name: p.name,
+    brand: p.brand,
+    description: p.description ?? undefined,
+    shortDescription: p.shortDescription ?? undefined,
+    price: Number(p.price),
+    compareAtPrice: p.compareAtPrice ? Number(p.compareAtPrice) : undefined,
+    categoryId: p.categoryId ?? undefined,
+    skinTypes: p.skinTypes || [],
+    concerns: p.concerns || [],
+    ingredients: p.ingredients || [],
+    benefits: p.benefits || [],
+    routineStep: p.routineStep,
+    usage: p.usage,
+    stock: p.stock,
+    active: p.active,
+    image: p.images?.[0]?.url,
+  };
+}
 
 export interface DetailedRecommendation {
   primaryShot: Shot;
@@ -35,7 +56,24 @@ export class RuleBasedRecommendationEngine {
       throw new Error("No se recibieron respuestas para calcular el diagnóstico.");
     }
 
-    // 1. Calculate Raw Scores from Fallback Weight Matrix (and DB if available)
+    // 1. Load quiz questions with options and weights from DB
+    const dbQuestions = await db.query.quizQuestions.findMany({
+      where: (q, { eq }) => eq(q.active, true),
+      orderBy: (q, { asc }) => [asc(q.order)],
+      with: {
+        options: {
+          with: {
+            weights: true,
+          },
+        },
+      },
+    });
+
+    if (dbQuestions.length === 0) {
+      throw new Error("No hay preguntas de quiz activas en la base de datos.");
+    }
+
+    // 2. Calculate Raw Scores from DB Weight Matrix
     const shotScores: Record<string, number> = {};
     const moodScores: Record<string, number> = {
       Calm: 0,
@@ -45,31 +83,28 @@ export class RuleBasedRecommendationEngine {
       Firm: 0,
     };
 
-    // Initialize all mock shots with base score 0
-    for (const s of mockShots) {
+    // Initialize all shots with base score 0
+    const dbShots = await db.query.shots.findMany({
+      where: (s, { eq }) => eq(s.active, true),
+    });
+    for (const s of dbShots) {
       shotScores[s.id] = 0;
       shotScores[s.slug] = 0;
     }
 
     // Accumulate weights from selected options
-    for (const q of fallbackQuizQuestions) {
+    for (const q of dbQuestions) {
       for (const opt of q.options) {
         if (selectedOptionIds.has(opt.id) || selectedOptionIds.has(opt.value)) {
-          if (opt.shotWeights) {
-            for (const [sId, weight] of Object.entries(opt.shotWeights)) {
-              shotScores[sId] = (shotScores[sId] ?? 0) + weight;
-            }
-          }
-          if (opt.moodWeights) {
-            for (const [mName, weight] of Object.entries(opt.moodWeights)) {
-              moodScores[mName] = (moodScores[mName] ?? 0) + weight;
-            }
+          // Shot weights from DB
+          for (const w of opt.weights) {
+            shotScores[w.shotId] = (shotScores[w.shotId] ?? 0) + w.weight;
           }
         }
       }
     }
 
-    // 2. Select Primary and Secondary Shots
+    // 3. Select Primary and Secondary Shots
     const shotEntries = Object.entries(shotScores)
       .filter(([id]) => id.startsWith("shot-"))
       .sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0));
@@ -79,33 +114,87 @@ export class RuleBasedRecommendationEngine {
     const topShotScore = firstShotEntry ? firstShotEntry[1] : 10;
     const secondShotEntry = shotEntries.length > 1 ? shotEntries[1] : null;
 
-    const primaryShot =
-      mockShots.find((s) => s.id === topShotId || s.slug === topShotId) ??
-      mockShots[3] ??
-      mockShots[0]!;
+    const primaryShotDb = dbShots.find((s) => s.id === topShotId || s.slug === topShotId) ?? dbShots[0]!;
 
-    const secondaryShot =
+    const secondaryShotDb =
       secondShotEntry && (secondShotEntry[1] ?? 0) >= topShotScore * SECONDARY_THRESHOLD_RATIO
-        ? mockShots.find((s) => s.id === secondShotEntry[0] || s.slug === secondShotEntry[0])
+        ? dbShots.find((s) => s.id === secondShotEntry[0] || s.slug === secondShotEntry[0])
         : undefined;
 
-    // 3. Select Dominant Skin Mood
-    const sortedMoods = Object.entries(moodScores).sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0));
-    const topMoodEntry = sortedMoods[0];
-    const skinMood: SkinMood = (topMoodEntry && (topMoodEntry[1] ?? 0) > 0
-      ? topMoodEntry[0]
-      : primaryShot.mood) as SkinMood;
+    // 4. Select Dominant Skin Mood (from primary shot mood)
+    const skinMood: SkinMood = (primaryShotDb.mood as SkinMood) ?? "Hydrated";
 
-    // 4. Match Corresponding Cocktail / Routine
-    // Usa la configuración explícita de src/mock-data/shot-cocktail-map.ts
-    // (basada en SOULE_SKIN_MENU_2026_FINAL.pdf). Sin reglas if/else hardcoded.
-    const targetCocktailSlug = resolveCocktailSlug(primaryShot.id, skinMood);
-    const recommendedCocktail =
-      mockCocktails.find((c) => c.slug === targetCocktailSlug) ??
-      mockCocktails[1] ??
-      mockCocktails[0]!;
+    // 5. Match Corresponding Cocktail / Routine
+    const targetCocktailSlug = resolveCocktailSlug(primaryShotDb.id, skinMood);
+    const dbCocktail = await db.query.cocktails.findFirst({
+      where: (c, { eq }) => eq(c.slug, targetCocktailSlug),
+      with: {
+        productLinks: {
+          with: { product: true },
+        },
+      },
+    });
 
-    // 5. Score breakdown percentage
+    const recommendedCocktail = dbCocktail ?? (await db.query.cocktails.findFirst({
+      where: (c, { eq }) => eq(c.active, true),
+      with: {
+        productLinks: {
+          with: { product: true },
+        },
+      },
+    }))!;
+
+    // Build Shot objects with full type compatibility
+    const primaryShot: Shot = {
+      id: primaryShotDb.id,
+      slug: primaryShotDb.slug,
+      name: primaryShotDb.name,
+      menuTitle: primaryShotDb.menuTitle || primaryShotDb.name,
+      subtitle: primaryShotDb.subtitle || "",
+      category: primaryShotDb.category || "Personalized",
+      description: primaryShotDb.description || "",
+      icon: primaryShotDb.icon || "✨",
+      mood: primaryShotDb.mood as SkinMood,
+      concerns: primaryShotDb.concerns || [],
+      skinTypes: primaryShotDb.skinTypes || [],
+      productIds: [],
+      active: primaryShotDb.active,
+    };
+
+    const secondaryShot: Shot | undefined = secondaryShotDb ? {
+      id: secondaryShotDb.id,
+      slug: secondaryShotDb.slug,
+      name: secondaryShotDb.name,
+      menuTitle: secondaryShotDb.menuTitle || secondaryShotDb.name,
+      subtitle: secondaryShotDb.subtitle || "",
+      category: secondaryShotDb.category || "Personalized",
+      description: secondaryShotDb.description || "",
+      icon: secondaryShotDb.icon || "✨",
+      mood: secondaryShotDb.mood as SkinMood,
+      concerns: secondaryShotDb.concerns || [],
+      skinTypes: secondaryShotDb.skinTypes || [],
+      productIds: [],
+      active: secondaryShotDb.active,
+    } : undefined;
+
+    // Build Cocktail object
+    const recommendedCocktailObj: Cocktail = {
+      id: recommendedCocktail.id,
+      slug: recommendedCocktail.slug,
+      name: recommendedCocktail.name,
+      menuTitle: recommendedCocktail.shortDescription || recommendedCocktail.name,
+      subtitle: recommendedCocktail.shortDescription ?? undefined,
+      icon: recommendedCocktail.icon ?? undefined,
+      image: recommendedCocktail.image ?? undefined,
+      description: recommendedCocktail.description ?? undefined,
+      shortDescription: recommendedCocktail.shortDescription ?? undefined,
+      mood: skinMood,
+      concerns: recommendedCocktail.concerns || [],
+      skinTypes: recommendedCocktail.skinTypes || [],
+      active: recommendedCocktail.active,
+    };
+
+    // 6. Score breakdown percentage
     const totalWeight = shotEntries.reduce((sum, [, val]) => sum + (val ?? 0), 0) || 1;
     const scoreBreakdown: Record<string, number> = {};
     for (const [id, val] of shotEntries) {
@@ -113,9 +202,22 @@ export class RuleBasedRecommendationEngine {
     }
     const matchScore = Math.min(99, Math.max(88, Math.round(85 + (topShotScore / (totalWeight || 1)) * 14)));
 
-    // 6. Build AM / PM Routine
-    const shotProducts = primaryShot.products ?? [];
-    const cocktailProducts = recommendedCocktail.products ?? [];
+    // 7. Build AM / PM Routine
+    // Get shot products
+    const shotProductLinks = await db.query.shotProducts.findMany({
+      where: (sp, { eq }) => eq(sp.shotId, primaryShot.id),
+      with: { product: { with: { images: true } } },
+      orderBy: (sp, { asc }) => [asc(sp.order)],
+    });
+    const shotProducts = shotProductLinks.map(sp => sanitizeProduct(sp.product));
+
+    // Get cocktail products
+    const cocktailProductLinks = await db.query.cocktailProducts.findMany({
+      where: (cp, { eq }) => eq(cp.cocktailId, recommendedCocktail.id),
+      with: { product: { with: { images: true } } },
+      orderBy: (cp, { asc }) => [asc(cp.order)],
+    });
+    const cocktailProducts = cocktailProductLinks.map(cp => sanitizeProduct(cp.product));
 
     // Combine and classify routine products
     const amRoutine: Product[] = [];
@@ -147,7 +249,7 @@ export class RuleBasedRecommendationEngine {
     return {
       primaryShot,
       secondaryShot,
-      recommendedCocktail,
+      recommendedCocktail: recommendedCocktailObj,
       skinMood,
       matchScore,
       scoreBreakdown,

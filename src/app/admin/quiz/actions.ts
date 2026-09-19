@@ -22,7 +22,7 @@ export async function createQuestion(formData: FormData) {
 export async function addOption(
   questionId: string,
   label: string,
-  cocktailId: string,
+  shotId: string,
   weight: number,
 ) {
   await requireAdmin(["super_admin", "editor"]);
@@ -31,10 +31,10 @@ export async function addOption(
     .values({ questionId, label, value: label.toLowerCase() })
     .returning();
 
-  if (cocktailId && weight) {
+  if (shotId && weight) {
     await db.insert(quizOptionWeights).values({
       optionId: option!.id,
-      cocktailId,
+      shotId,
       weight,
     });
   }

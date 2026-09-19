@@ -6,7 +6,7 @@ export default async function AdminQuizPage() {
     orderBy: (q, { asc }) => [asc(q.order)],
     with: { options: { with: { weights: true } } },
   });
-  const cocktails = await db.query.cocktails.findMany();
+  const shots = await db.query.shots.findMany();
 
   return (
     <div>
@@ -14,15 +14,15 @@ export default async function AdminQuizPage() {
         Skin Quiz
       </h1>
       <p className="mt-2 text-sm text-plum-ink/50">
-        {cocktails.length === 0 &&
-          "Crea primero tus cocktails para poder asignarles pesos desde las opciones."}
+        {shots.length === 0 &&
+          "Crea primero tus shots para poder asignarles pesos desde las opciones."}
       </p>
 
-      <form 
+      <form
   action={async (formData) => {
     'use server';
     await createQuestion(formData);
-  }} 
+  }}
   className="mt-6 grid max-w-xl gap-3"
 >
   <input name="text" placeholder="Texto de la pregunta" required className="rounded border border-plum-ink/15 px-3 py-2" />
@@ -44,7 +44,7 @@ export default async function AdminQuizPage() {
               ))}
             </ul>
             <p className="mt-2 text-xs text-plum-ink/40">
-              Para agregar opciones y pesos por cocktail usa Drizzle Studio
+              Para agregar opciones y pesos por shot usa Drizzle Studio
               (`npm run db:studio`) hasta construir el editor visual — ver
               DOC-PENDIENTES.md.
             </p>
