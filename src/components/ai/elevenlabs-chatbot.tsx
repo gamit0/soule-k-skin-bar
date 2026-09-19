@@ -11,7 +11,6 @@ export function ElevenLabsChatBot({
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
   const initAttempted = useRef(false);
 
   useEffect(() => {
@@ -40,9 +39,9 @@ export function ElevenLabsChatBot({
   }, []);
 
   useEffect(() => {
-    if (!isLoaded || !containerRef.current || initAttempted.current) return;
+    if (!isLoaded || initAttempted.current) return;
 
-    // Initialize the widget when loaded
+    // Initialize the widget when loaded - try without container first
     const initWidget = () => {
       const widget = (window as any).ElevenLabsConvaiWidget;
       if (!widget) {
@@ -53,9 +52,9 @@ export function ElevenLabsChatBot({
       try {
         console.log("[ElevenLabs] Initializing widget with agent:", "agent_9201m2w5szytf60bnev7em46v1b2");
 
+        // Try without container first (widget creates its own floating button)
         widget.init({
           agentId: "agent_9201m2w5szytf60bnev7em46v1b2",
-          container: containerRef.current!,
           onClose: () => {
             console.log("[ElevenLabs] Widget closed");
             onClose?.();
@@ -107,11 +106,7 @@ export function ElevenLabsChatBot({
 
   if (error) {
     return (
-      <div
-        ref={containerRef}
-        id="elevenlabs-chatbot-container"
-        className="fixed bottom-6 right-6 z-50"
-      >
+      <div className="fixed bottom-6 right-6 z-50">
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl shadow-lg max-w-xs">
           <p className="text-sm font-medium">No se pudo cargar el chat</p>
           <p className="text-xs mt-1">{error}</p>
@@ -126,7 +121,6 @@ export function ElevenLabsChatBot({
     );
   }
 
-  return (
-    <div ref={containerRef} id="elevenlabs-chatbot-container" className="fixed bottom-6 right-6 z-50 w-80 h-96" />
-  );
+  // Widget renders its own floating button - no container needed
+  return null;
 }
