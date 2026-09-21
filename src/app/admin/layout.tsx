@@ -22,6 +22,7 @@ export default async function AdminLayout({
           <Link href="/admin/quiz" className="hover:text-wine">Quiz</Link>
           <Link href="/admin/orders" className="hover:text-wine">Pedidos</Link>
           <Link href="/admin/customers" className="hover:text-wine">Clientes</Link>
+          <Link href="/admin/users" className="hover:text-wine">Usuarios Admin</Link>
         </nav>
       </aside>
       <main className="flex-1 px-8 py-8">{children}</main>
