@@ -11,16 +11,16 @@ export function ElevenLabsChatBot({
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const initAttempted = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Check if we're in browser
     if (typeof window === "undefined") return;
 
-    // Load ElevenLabs Conversational AI widget
+    // Load ElevenLabs Conversational AI widget script
     const script = document.createElement("script");
     script.src = "https://unpkg.com/@elevenlabs/convai-widget-embed@latest";
     script.async = true;
+    script.type = "module";
     script.onload = () => {
       console.log("[ElevenLabs] Widget script loaded");
       setIsLoaded(true);
@@ -39,67 +39,35 @@ export function ElevenLabsChatBot({
   }, []);
 
   useEffect(() => {
-    if (!isLoaded || initAttempted.current) return;
+    if (!isLoaded) return;
 
-    // Initialize the widget when loaded - try without container first
-    const initWidget = () => {
-      const widget = (window as any).ElevenLabsConvaiWidget;
-      if (!widget) {
-        console.log("[ElevenLabs] Widget not ready yet");
-        return false;
-      }
+    // Configure the widget element via its attributes
+    const el = containerRef.current;
+    if (!el) return;
 
-      try {
-        console.log("[ElevenLabs] Initializing widget with agent:", "agent_9201m2w5szytf60bnev7em46v1b2");
+    const widget = document.createElement("elevenlabs-convai-widget");
+    widget.setAttribute("agent-id", "agent_9201m2w5szytf60bnev7em46v1b2");
+    widget.setAttribute("variant", "compact");
+    widget.setAttribute("placement", "bottom-right");
+    widget.style.position = "fixed";
+    widget.style.bottom = "24px";
+    widget.style.right = "24px";
+    widget.style.zIndex = "9999";
 
-        // Try without container first (widget creates its own floating button)
-        widget.init({
-          agentId: "agent_9201m2w5szytf60bnev7em46v1b2",
-          onClose: () => {
-            console.log("[ElevenLabs] Widget closed");
-            onClose?.();
-          },
-          onOpen: () => {
-            console.log("[ElevenLabs] Widget opened");
-          },
-          onError: (err: any) => {
-            console.error("[ElevenLabs] Widget error:", err);
-            setError(err?.message || "Chat widget error");
-          },
-        });
-
-        initAttempted.current = true;
-        console.log("[ElevenLabs] Widget initialized successfully");
-        return true;
-      } catch (err) {
-        console.error("[ElevenLabs] Init error:", err);
-        setError(err instanceof Error ? err.message : "Failed to initialize chat");
-        return false;
-      }
+    // Wire up callbacks
+    (widget as any).onClose = () => {
+      console.log("[ElevenLabs] Widget closed");
+      onClose?.();
     };
 
-    // Try to initialize immediately
-    if (!initWidget()) {
-      // Retry every 100ms for up to 10 seconds
-      const interval = setInterval(() => {
-        if (initWidget() || initAttempted.current) {
-          clearInterval(interval);
-        }
-      }, 100);
+    el.appendChild(widget);
+    console.log("[ElevenLabs] Widget element appended to DOM");
 
-      // Timeout after 10 seconds
-      const timeout = setTimeout(() => {
-        clearInterval(interval);
-        if (!initAttempted.current) {
-          setError("Widget initialization timeout");
-        }
-      }, 10000);
-
-      return () => {
-        clearInterval(interval);
-        clearTimeout(timeout);
-      };
-    }
+    return () => {
+      if (el.contains(widget)) {
+        el.removeChild(widget);
+      }
+    };
   }, [isLoaded, onClose]);
 
   if (!isOpen) return null;
@@ -121,6 +89,6 @@ export function ElevenLabsChatBot({
     );
   }
 
-  // Widget renders its own floating button - no container needed
-  return null;
+  // Hidden container that holds the widget custom element
+  return <div ref={containerRef} aria-hidden="true" />;
 }
