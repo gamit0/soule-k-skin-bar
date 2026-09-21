@@ -1,8 +1,9 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 import { db } from "@/lib/db/client";
-import { customers } from "@/lib/db/schema";
+import { customers, adminUsers } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -11,19 +12,54 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
-    // Placeholder de credenciales — para producción real conviene resolver
-    // contra un hash de password (no implementado: definir estrategia de
-    // password storage antes de habilitar este provider en prod).
     Credentials({
-      credentials: { email: { label: "Email" } },
+      name: "Email & Password",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Contraseña", type: "password" },
+      },
       async authorize(credentials) {
         const email = credentials?.email as string | undefined;
-        if (!email) return null;
+        const password = credentials?.password as string | undefined;
+
+        if (!email || !password) return null;
+
+        // Check customer first
         const customer = await db.query.customers.findFirst({
           where: eq(customers.email, email),
         });
-        if (!customer) return null;
-        return { id: customer.id, email: customer.email, name: customer.name };
+
+        if (customer && customer.password_hash) {
+          const isValid = await bcrypt.compare(password, customer.password_hash);
+          if (isValid) {
+            return {
+              id: customer.id,
+              email: customer.email,
+              name: customer.name,
+              role: customer.role || "customer"
+            };
+          }
+        }
+
+        // Check admin users
+        const admin = await db.query.adminUsers.findFirst({
+          where: eq(adminUsers.email, email),
+        });
+
+        if (admin && admin.password_hash) {
+          const isValid = await bcrypt.compare(password, admin.password_hash);
+          if (isValid) {
+            return {
+              id: admin.id,
+              email: admin.email,
+              name: admin.email,
+              role: admin.role || "support",
+              isAdmin: true
+            };
+          }
+        }
+
+        return null;
       },
     }),
   ],
@@ -31,4 +67,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     signIn: "/login",
   },
   session: { strategy: "jwt" },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.role = (user as any).role || "customer";
+        token.isAdmin = (user as any).isAdmin || false;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        (session.user as any).id = token.id;
+        (session.user as any).role = token.role;
+        (session.user as any).isAdmin = token.isAdmin;
+      }
+      return session;
+    },
+  },
 });

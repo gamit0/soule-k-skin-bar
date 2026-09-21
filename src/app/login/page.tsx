@@ -1,4 +1,5 @@
 import { Header } from "@/components/marketing/header";
+import { Footer } from "@/components/marketing/footer";
 
 export const metadata = { title: "Iniciar sesión — Soule K Skin Bar" };
 
@@ -7,19 +8,15 @@ export default function LoginPage() {
     <>
       <Header />
       <main className="px-6 py-16 sm:px-10 sm:py-24">
-        <div className="mx-auto max-w-sm text-center">
-          <h1 className="font-[family-name:var(--font-display)] text-3xl text-plum-ink">
+        <div className="mx-auto max-w-sm">
+          <h1 className="font-[family-name:var(--font-display)] text-3xl text-plum-ink text-center">
             Bienvenida de vuelta
           </h1>
-          <p className="mt-3 text-plum-ink/70">
-            Inicia sesión para ver tu rutina guardada y tu historial de
-            pedidos.
+          <p className="mt-3 text-center text-plum-ink/70">
+            Inicia sesión para ver tu rutina guardada y tu historial de pedidos.
           </p>
-          <form
-            action="/api/auth/signin/google"
-            method="POST"
-            className="mt-8"
-          >
+
+          <form action="/api/auth/signin/google" method="POST" className="mt-8">
             <button
               type="submit"
               className="w-full rounded-full border border-plum-ink/15 px-6 py-3 text-plum-ink transition-colors hover:border-wine hover:text-wine"
@@ -27,8 +24,68 @@ export default function LoginPage() {
               Continuar con Google
             </button>
           </form>
+
+          <div className="relative mt-8">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-plum-ink/10" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-ivory px-2 text-plum-ink/50">O continúa con email</span>
+            </div>
+          </div>
+
+          <form action={loginAction} className="mt-8 space-y-5">
+            <div>
+              <label htmlFor="email" className="block text-sm text-plum-ink/70 mb-1">
+                Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                className="w-full rounded border border-plum-ink/15 px-4 py-3 text-plum-ink focus:outline-none focus:border-wine transition-colors"
+                placeholder="tu@email.com"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm text-plum-ink/70 mb-1">
+                Contraseña
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                className="w-full rounded border border-plum-ink/15 px-4 py-3 text-plum-ink focus:outline-none focus:border-wine transition-colors"
+                placeholder="Tu contraseña"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full rounded-full bg-wine py-3 text-ivory font-medium hover:bg-wine-dark transition-colors"
+            >
+              Iniciar sesión
+            </button>
+          </form>
+
+          <p className="mt-6 text-center text-sm text-plum-ink/50">
+            ¿No tienes cuenta?{" "}
+            <a href="/register" className="text-wine hover:underline font-medium">
+              Regístrate
+            </a>
+          </p>
         </div>
       </main>
+      <Footer />
     </>
   );
+}
+
+async function loginAction(formData: FormData) {
+  "use server";
+  // NextAuth will handle credential login via signIn
+  // Redirect to appropriate dashboard based on role
 }

@@ -1,9 +1,12 @@
 "use client";
 
+"use client";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import { track } from "@/lib/track";
+import { useSession, signOut } from "next-auth/react";
 
 const NAV_LINKS = [
   { label: "Shots", href: "/shots" },
@@ -14,8 +17,10 @@ const NAV_LINKS = [
 
 export function Header() {
   const { items } = useCart();
+  const { data: session, status } = useSession();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   const count = items.reduce((sum, i) => sum + i.quantity, 0);
 
@@ -33,6 +38,15 @@ export function Header() {
       document.body.style.overflow = "";
     };
   }, [menuOpen]);
+
+  // Close user menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => setUserMenuOpen(false);
+    if (userMenuOpen) {
+      document.addEventListener("click", handleClickOutside);
+    }
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [userMenuOpen]);
 
   return (
     <header
@@ -82,6 +96,60 @@ export function Header() {
               </span>
             )}
           </Link>
+
+          {/* User Menu */}
+          {status === "authenticated" ? (
+            <div className="relative">
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-plum-ink/10 bg-ivory text-plum-ink transition-all duration-300 hover:border-wine/40 hover:text-wine"
+              >
+                <span className="text-sm font-medium">
+                  {session.user?.name?.charAt(0) || session.user?.email?.charAt(0) || "U"}
+                </span>
+              </button>
+
+              {userMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 rounded-lg border border-plum-ink/10 bg-ivory shadow-lg py-2 z-50">
+                  <div className="px-4 py-2 border-b border-plum-ink/10">
+                    <p className="text-sm font-medium text-plum-ink">{session.user?.name || "Usuario"}</p>
+                    <p className="text-xs text-plum-ink/60 truncate">{session.user?.email}</p>
+                  </div>
+                  <Link
+                    href="/account/orders"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="block px-4 py-2 text-sm text-plum-ink hover:bg-plum-ink/5"
+                  >
+                    Mis pedidos
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setUserMenuOpen(false);
+                      signOut({ callbackUrl: "/" });
+                    }}
+                    className="block w-full text-left px-4 py-2 text-sm text-plum-ink hover:bg-plum-ink/5"
+                  >
+                    Cerrar sesión
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="hidden sm:inline-flex text-sm font-medium text-plum-ink/65 hover:text-wine transition-colors"
+              >
+                Iniciar sesión
+              </Link>
+              <Link
+                href="/register"
+                className="hidden sm:inline-flex text-sm font-medium bg-wine text-ivory px-4 py-2 rounded-full hover:bg-wine-dark transition-colors"
+              >
+                Registrarse
+              </Link>
+            </>
+          )}
 
           {/* Primary CTA — desktop */}
           <Link

@@ -206,6 +206,13 @@ export const quizOptionWeights = pgTable(
 // ── Customers & Recommendations ───────────────────────────────────────
 
 export const customers = pgTable("customers", {
+  role: varchar("role", { length: 20 })
+    .notNull()
+    .default("customer"),
+  password_hash: varchar("password_hash", { length: 191 })
+    .notNull()
+    .default(''),
+
   id: uuid("id").defaultRandom().primaryKey(),
   name: varchar("name", { length: 160 }),
   email: varchar("email", { length: 200 }).unique(),
@@ -309,6 +316,7 @@ export const adminUsers = pgTable("admin_users", {
   id: uuid("id").defaultRandom().primaryKey(),
   email: varchar("email", { length: 200 }).notNull().unique(),
   role: adminRoleEnum("role").notNull().default("support"),
+  password_hash: varchar("password_hash", { length: 191 }),
   authProviderId: varchar("auth_provider_id", { length: 200 }),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
