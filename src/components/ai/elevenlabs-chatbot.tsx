@@ -39,12 +39,9 @@ export function ElevenLabsChatBot({
   }, []);
 
   useEffect(() => {
-    if (!isLoaded) return;
+    if (!isLoaded || !containerRef.current) return;
 
-    // Configure the widget element via its attributes
-    const el = containerRef.current;
-    if (!el) return;
-
+    // Create and append the custom element
     const widget = document.createElement("elevenlabs-convai-widget");
     widget.setAttribute("agent-id", "agent_9201m2w5szytf60bnev7em46v1b2");
     widget.setAttribute("variant", "compact");
@@ -60,12 +57,12 @@ export function ElevenLabsChatBot({
       onClose?.();
     };
 
-    el.appendChild(widget);
+    containerRef.current.appendChild(widget);
     console.log("[ElevenLabs] Widget element appended to DOM");
 
     return () => {
-      if (el.contains(widget)) {
-        el.removeChild(widget);
+      if (containerRef.current?.contains(widget)) {
+        containerRef.current.removeChild(widget);
       }
     };
   }, [isLoaded, onClose]);
@@ -89,6 +86,6 @@ export function ElevenLabsChatBot({
     );
   }
 
-  // Hidden container that holds the widget custom element
-  return <div ref={containerRef} aria-hidden="true" />;
+  // Container for the custom element - use display: contents so it doesn't affect layout
+  return <div ref={containerRef} style={{ display: "contents" }} />;
 }
