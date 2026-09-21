@@ -1,9 +1,33 @@
+"use client";
+
 import { Header } from "@/components/marketing/header";
 import { Footer } from "@/components/marketing/footer";
-
-export const metadata = { title: "Iniciar sesión — Soule K Skin Bar" };
+import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (result?.error) {
+      setError("Email o contraseña incorrectos");
+    } else {
+      window.location.href = "/account/orders";
+    }
+  };
+
   return (
     <>
       <Header />
@@ -34,7 +58,12 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <form action={loginAction} className="mt-8 space-y-5">
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+            {error && (
+              <div className="rounded-lg bg-red-50 p-3 text-sm text-red-600 border border-red-200">
+                {error}
+              </div>
+            )}
             <div>
               <label htmlFor="email" className="block text-sm text-plum-ink/70 mb-1">
                 Email
@@ -82,10 +111,4 @@ export default function LoginPage() {
       <Footer />
     </>
   );
-}
-
-async function loginAction(formData: FormData) {
-  "use server";
-  // NextAuth will handle credential login via signIn
-  // Redirect to appropriate dashboard based on role
 }
