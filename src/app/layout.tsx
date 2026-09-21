@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import { CartProvider } from "@/lib/cart-context";
 import { N8nChatBot } from "@/components/ai/n8n-chatbot";
+import { SessionProvider } from "next-auth/react";
 
 import "./globals.css";
 
@@ -84,11 +85,12 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.variable} ${fraunces.variable} antialiased`}>
-        <CartProvider>
-          {children}
-          <N8nChatBot isOpen={true} />
-        </CartProvider>
-
+        <SessionProvider>
+          <CartProvider>
+            {children}
+            <N8nChatBot isOpen={true} />
+          </CartProvider>
+        </SessionProvider>
       </body>
     </html>
   );

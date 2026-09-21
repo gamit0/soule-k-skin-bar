@@ -33,12 +33,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [hydrated, setHydrated] = useState(false);
 
-  // Carrito persistido en localStorage — es una app real desplegada en el
-  // navegador del cliente, no un artifact de Claude, así que localStorage
-  // es la elección correcta aquí (a diferencia de las restricciones que
-  // aplican dentro de artifacts interactivos).
+  // Solo hidratar en el cliente (localStorage no está disponible en SSR)
   useEffect(() => {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
+    const raw = typeof window !== "undefined" ? window.localStorage.getItem(STORAGE_KEY) : null;
     if (raw) {
       try {
         setItems(JSON.parse(raw));
@@ -50,7 +47,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (hydrated) {
+    if (hydrated && typeof window !== "undefined") {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     }
   }, [items, hydrated]);
