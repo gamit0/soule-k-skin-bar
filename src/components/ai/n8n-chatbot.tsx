@@ -71,7 +71,7 @@ export function N8nChatBot({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          message: currentInput,
+          chatInput: currentInput,
           sessionId: "chat-" + Date.now(), // Simple session tracking
         }),
       });
