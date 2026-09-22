@@ -16,6 +16,7 @@ export function N8nChatBot({
   isOpen?: boolean;
   onClose?: () => void;
 }) {
+  const [isClosed, setIsClosed] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -33,9 +34,14 @@ export function N8nChatBot({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const handleClose = () => {
+    setIsClosed(true);
+    onClose?.();
+  };
+
   // Add initial welcome message
   useEffect(() => {
-    if (messages.length === 0 && isOpen) {
+    if (messages.length === 0 && isOpen && !isClosed) {
       setMessages([
         {
           id: "welcome",
@@ -46,7 +52,7 @@ export function N8nChatBot({
         },
       ]);
     }
-  }, [isOpen]);
+  }, [isOpen, isClosed]);
 
   const sendMessage = useCallback(async () => {
     if (!inputValue.trim() || isLoading) return;
@@ -130,7 +136,7 @@ export function N8nChatBot({
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || isClosed) return null;
 
   return (
     <div
@@ -151,7 +157,7 @@ export function N8nChatBot({
             </div>
           </div>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="p-1.5 rounded-lg text-ivory/70 hover:text-ivory hover:bg-white/10 transition-colors"
             aria-label="Cerrar chat"
           >

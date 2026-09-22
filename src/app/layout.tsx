@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import { CartProvider } from "@/lib/cart-context";
+import { useState, useEffect } from "react";
 import { N8nChatBot } from "@/components/ai/n8n-chatbot";
 import { SessionProvider } from "next-auth/react";
 
@@ -77,6 +78,16 @@ export const metadata: Metadata = {
   },
 };
 
+function ClientChatWrapper() {
+  const [isOpen, setIsOpen] = useState(true);
+  return (
+    <N8nChatBot
+      isOpen={isOpen}
+      onClose={() => setIsOpen(false)}
+    />
+  );
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -88,10 +99,18 @@ export default function RootLayout({
         <SessionProvider>
           <CartProvider>
             {children}
-            <N8nChatBot isOpen={true} />
+            <ChatMount />
           </CartProvider>
         </SessionProvider>
       </body>
     </html>
   );
+}
+
+function ChatMount() {
+  // Use client component to avoid SSR hydration issues with local state
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+  return <ClientChatWrapper />;
 }
