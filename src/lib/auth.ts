@@ -8,10 +8,13 @@ import { eq } from "drizzle-orm";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
-    Google({
-      clientId: process.env.AUTH_GOOGLE_ID,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET,
-    }),
+    /* Google provider only if credentials are set */
+    ...(process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET
+      ? [Google({
+          clientId: process.env.AUTH_GOOGLE_ID,
+          clientSecret: process.env.AUTH_GOOGLE_SECRET,
+        })]
+      : []),
     Credentials({
       name: "Email & Password",
       credentials: {
