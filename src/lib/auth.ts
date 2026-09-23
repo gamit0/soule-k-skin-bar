@@ -40,7 +40,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 id: admin.id,
                 email: admin.email || "",
                 name: admin.email || "",
-                role: admin.role || "support",
+                role: admin.role as "super_admin" | "editor" | "support",
                 isAdmin: true
               };
             }
@@ -58,7 +58,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 id: customer.id,
                 email: customer.email,
                 name: customer.name || customer.email,
-                role: customer.role || "customer",
+                role: "customer",
                 isAdmin: false
               };
             }
