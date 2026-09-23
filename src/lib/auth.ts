@@ -53,11 +53,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (customer && customer.password_hash && customer.email) {
           const isValid = await bcrypt.compare(password, customer.password_hash);
           if (isValid) {
+            const role = customer.role === "super_admin" || customer.role === "editor" || customer.role === "support"
+              ? customer.role as "super_admin" | "editor" | "support"
+              : "customer";
             return {
               id: customer.id,
               email: customer.email,
               name: customer.name || customer.email,
-              role: customer.role || "customer",
+              role,
               isAdmin: false
             };
           }
