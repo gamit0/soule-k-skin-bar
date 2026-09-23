@@ -37,8 +37,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           if (isValid) {
             return {
               id: admin.id,
-              email: admin.email,
-              name: admin.email,
+              email: admin.email || "",
+              name: admin.email || "",
               role: admin.role || "support",
               isAdmin: true
             };
@@ -50,13 +50,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           where: eq(customers.email, email),
         });
 
-        if (customer && customer.password_hash) {
+        if (customer && customer.password_hash && customer.email) {
           const isValid = await bcrypt.compare(password, customer.password_hash);
           if (isValid) {
             return {
               id: customer.id,
               email: customer.email,
-              name: customer.name,
+              name: customer.name || customer.email,
               role: customer.role || "customer",
               isAdmin: false
             };
