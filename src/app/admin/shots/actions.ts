@@ -9,7 +9,7 @@ import { skinTypeEnum, concernEnum } from "@/lib/db/schema";
 import { createAuditLog } from "@/lib/audit-log";
 
 export async function createShot(formData: FormData) {
-  const session = await requireAdmin(["super_admin", "editor"]);
+  const admin = await requireAdmin(["super_admin", "editor"]);
   const name = formData.get("name") as string;
   const slug = name
     .toLowerCase()
@@ -34,9 +34,9 @@ export async function createShot(formData: FormData) {
 
   await createAuditLog({
     actorType: "admin",
-    actorId: session.user.id,
-    actorEmail: session.user.email,
-    actorRole: session.user.role as any,
+    actorId: admin.id,
+    actorEmail: admin.email ?? undefined,
+    actorRole: admin.role as any,
     action: "shot.create",
     entityType: "shot",
     metadata: { name, slug },
@@ -46,7 +46,7 @@ export async function createShot(formData: FormData) {
 }
 
 export async function updateShot(id: string, formData: FormData) {
-  const session = await requireAdmin(["super_admin", "editor"]);
+  const admin = await requireAdmin(["super_admin", "editor"]);
 
   await db
     .update(shots)
@@ -66,9 +66,9 @@ export async function updateShot(id: string, formData: FormData) {
 
   await createAuditLog({
     actorType: "admin",
-    actorId: session.user.id,
-    actorEmail: session.user.email,
-    actorRole: session.user.role as any,
+    actorId: admin.id,
+    actorEmail: admin.email ?? undefined,
+    actorRole: admin.role as any,
     action: "shot.update",
     entityType: "shot",
     entityId: id,
@@ -79,14 +79,14 @@ export async function updateShot(id: string, formData: FormData) {
 }
 
 export async function toggleShotActive(id: string, active: boolean) {
-  const session = await requireAdmin(["super_admin", "editor"]);
+  const admin = await requireAdmin(["super_admin", "editor"]);
   await db.update(shots).set({ active }).where(eq(shots.id, id));
 
   await createAuditLog({
     actorType: "admin",
-    actorId: session.user.id,
-    actorEmail: session.user.email,
-    actorRole: session.user.role as any,
+    actorId: admin.id,
+    actorEmail: admin.email ?? undefined,
+    actorRole: admin.role as any,
     action: "shot.toggle_active",
     entityType: "shot",
     entityId: id,
@@ -97,14 +97,14 @@ export async function toggleShotActive(id: string, active: boolean) {
 }
 
 export async function deleteShot(id: string) {
-  const session = await requireAdmin(["super_admin"]);
+  const admin = await requireAdmin(["super_admin"]);
   await db.delete(shots).where(eq(shots.id, id));
 
   await createAuditLog({
     actorType: "admin",
-    actorId: session.user.id,
-    actorEmail: session.user.email,
-    actorRole: session.user.role as any,
+    actorId: admin.id,
+    actorEmail: admin.email ?? undefined,
+    actorRole: admin.role as any,
     action: "shot.delete",
     entityType: "shot",
     entityId: id,

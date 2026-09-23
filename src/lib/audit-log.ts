@@ -45,11 +45,13 @@ export async function createAuditLog(input: AuditLogInput): Promise<void> {
 
 /**
  * Server-only helper to get client IP and User-Agent from request headers.
- * Usage: const { ip, userAgent } = getRequestContext(request);
+ * Usage: const { ip, userAgent } = await getRequestContext(request);
  */
-export function getRequestContext(request: Request): { ip: string | undefined; userAgent: string | undefined } {
+export async function getRequestContext(request: Request): Promise<{ ip: string | undefined; userAgent: string | undefined }> {
   const forwarded = request.headers.get("x-forwarded-for");
-  const ip = forwarded ? forwarded.split(",")[0].trim() : request.headers.get("x-real-ip") ?? undefined;
+  const realIp = request.headers.get("x-real-ip");
+  const ipFromForwarded = forwarded ? forwarded.split(",")[0]?.trim() : undefined;
+  const ip = ipFromForwarded ?? realIp ?? undefined;
   const userAgent = request.headers.get("user-agent") ?? undefined;
   return { ip, userAgent };
 }
