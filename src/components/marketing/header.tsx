@@ -111,54 +111,59 @@ export function Header() {
 
               {userMenuOpen && (
                 <div className="absolute right-0 mt-2 w-56 rounded-lg border border-plum-ink/10 bg-ivory shadow-lg py-2 z-50">
-                  <div className="px-4 py-2 border-b border-plum-ink/10">
+                  <div className="px-4 py-3 border-b border-plum-ink/10">
                     <p className="text-sm font-medium text-plum-ink">{session.user?.name || "Usuario"}</p>
                     <p className="text-xs text-plum-ink/60 truncate">{session.user?.email}</p>
-                    {userRole && (
-                      <span className={`mt-1 inline-block px-2 py-0.5 text-[0.55rem] font-semibold uppercase tracking-wide rounded-full ${userRole === 'super_admin' ? 'bg-wine/10 text-wine' : userRole === 'editor' ? 'bg-gold/10 text-gold' : userRole === 'support' ? 'bg-sage/10 text-sage' : 'bg-plum-ink/10 text-plum-ink'}`}>
+                    <div className="mt-2">
+                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-full ${userRole === 'super_admin' ? 'bg-wine/10 text-wine' : userRole === 'editor' ? 'bg-gold/10 text-gold' : userRole === 'support' ? 'bg-sage/10 text-sage' : 'bg-plum-ink/10 text-plum-ink'}`}>
+                        <span className="w-2 h-2 rounded-full bg-current opacity-60"></span>
                         {userRole === 'super_admin' ? 'Super Admin' : userRole === 'editor' ? 'Editor' : userRole === 'support' ? 'Soporte' : 'Cliente'}
                       </span>
-                    )}
+                    </div>
                   </div>
 
                   {/* Admin / Editor / Support Panels */}
-                  {isAdmin && userRole === 'super_admin' && (
-                    <Link
-                      href="/admin"
-                      onClick={() => setUserMenuOpen(false)}
-                      className="block px-4 py-2 text-sm text-plum-ink hover:bg-plum-ink/5 flex items-center gap-2"
-                    >
-                      <span className="w-5 h-5 flex items-center justify-center">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                      </span>
-                      Panel de Admin
-                    </Link>
-                  )}
+                  {isAdmin && (
+                    <>
+                      {userRole === 'super_admin' && (
+                        <Link
+                          href="/admin"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="block px-4 py-2 text-sm text-plum-ink hover:bg-plum-ink/5 flex items-center gap-2"
+                        >
+                          <span className="w-5 h-5 flex items-center justify-center">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                          </span>
+                          Panel de Admin
+                        </Link>
+                      )}
 
-                  {isAdmin && userRole === 'editor' && (
-                    <Link
-                      href="/editor"
-                      onClick={() => setUserMenuOpen(false)}
-                      className="block px-4 py-2 text-sm text-plum-ink hover:bg-plum-ink/5 flex items-center gap-2"
-                    >
-                      <span className="w-5 h-5 flex items-center justify-center">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
-                      </span>
-                      Panel de Editor
-                    </Link>
-                  )}
+                      {userRole === 'editor' && (
+                        <Link
+                          href="/editor"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="block px-4 py-2 text-sm text-plum-ink hover:bg-plum-ink/5 flex items-center gap-2"
+                        >
+                          <span className="w-5 h-5 flex items-center justify-center">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                          </span>
+                          Panel de Editor
+                        </Link>
+                      )}
 
-                  {isAdmin && userRole === 'support' && (
-                    <Link
-                      href="/support"
-                      onClick={() => setUserMenuOpen(false)}
-                      className="block px-4 py-2 text-sm text-plum-ink hover:bg-plum-ink/5 flex items-center gap-2"
-                    >
-                      <span className="w-5 h-5 flex items-center justify-center">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                      </span>
-                      Panel de Soporte
-                    </Link>
+                      {userRole === 'support' && (
+                        <Link
+                          href="/support"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="block px-4 py-2 text-sm text-plum-ink hover:bg-plum-ink/5 flex items-center gap-2"
+                        >
+                          <span className="w-5 h-5 flex items-center justify-center">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                          </span>
+                          Panel de Soporte
+                        </Link>
+                      )}
+                    </>
                   )}
 
                   {/* Customer Account */}
