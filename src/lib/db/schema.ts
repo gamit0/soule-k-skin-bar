@@ -481,3 +481,30 @@ export const analyticsEvents = pgTable("analytics_events", {
   metadata: jsonb("metadata"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
+
+// ── Audit Logs ────────────────────────────────────────────────────────────
+
+export const auditLogActorTypeEnum = pgEnum("audit_log_actor_type", [
+  "admin",
+  "customer",
+  "guest",
+  "system",
+]);
+
+export const auditLogs = pgTable("audit_logs", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  actorType: auditLogActorTypeEnum("actor_type").notNull(),
+  actorId: varchar("actor_id", { length: 200 }),
+  actorEmail: varchar("actor_email", { length: 200 }),
+  actorRole: varchar("actor_role", { length: 20 }),
+  action: varchar("action", { length: 120 }).notNull(),
+  entityType: varchar("entity_type", { length: 80 }),
+  entityId: varchar("entity_id", { length: 200 }),
+  metadata: jsonb("metadata"),
+  ip: varchar("ip", { length: 45 }),
+  userAgent: varchar("user_agent", { length: 512 }),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export type AuditLog = typeof auditLogs.$inferSelect;
+export type NewAuditLog = typeof auditLogs.$inferInsert;

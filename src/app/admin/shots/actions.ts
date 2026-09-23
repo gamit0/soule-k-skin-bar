@@ -6,10 +6,10 @@ import { db } from "@/lib/db/client";
 import { shots } from "@/lib/db/schema";
 import { requireAdmin } from "@/lib/require-admin";
 import { skinTypeEnum, concernEnum } from "@/lib/db/schema";
+import { createAuditLog } from "@/lib/audit-log";
 
 export async function createShot(formData: FormData) {
-  await requireAdmin(["super_admin", "editor"]);
-
+  const session = await requireAdmin(["super_admin", "editor"]);
   const name = formData.get("name") as string;
   const slug = name
     .toLowerCase()
@@ -32,11 +32,21 @@ export async function createShot(formData: FormData) {
     active: true,
   });
 
+  await createAuditLog({
+    actorType: "admin",
+    actorId: session.user.id,
+    actorEmail: session.user.email,
+    actorRole: session.user.role as any,
+    action: "shot.create",
+    entityType: "shot",
+    metadata: { name, slug },
+  });
+
   revalidatePath("/admin/shots");
 }
 
 export async function updateShot(id: string, formData: FormData) {
-  await requireAdmin(["super_admin", "editor"]);
+  const session = await requireAdmin(["super_admin", "editor"]);
 
   await db
     .update(shots)
@@ -54,17 +64,51 @@ export async function updateShot(id: string, formData: FormData) {
     })
     .where(eq(shots.id, id));
 
+  await createAuditLog({
+    actorType: "admin",
+    actorId: session.user.id,
+    actorEmail: session.user.email,
+    actorRole: session.user.role as any,
+    action: "shot.update",
+    entityType: "shot",
+    entityId: id,
+    metadata: { name: formData.get("name") as string },
+  });
+
   revalidatePath("/admin/shots");
 }
 
 export async function toggleShotActive(id: string, active: boolean) {
-  await requireAdmin(["super_admin", "editor"]);
+  const session = await requireAdmin(["super_admin", "editor"]);
   await db.update(shots).set({ active }).where(eq(shots.id, id));
+
+  await createAuditLog({
+    actorType: "admin",
+    actorId: session.user.id,
+    actorEmail: session.user.email,
+    actorRole: session.user.role as any,
+    action: "shot.toggle_active",
+    entityType: "shot",
+    entityId: id,
+    metadata: { active },
+  });
+
   revalidatePath("/admin/shots");
 }
 
 export async function deleteShot(id: string) {
-  await requireAdmin(["super_admin"]);
+  const session = await requireAdmin(["super_admin"]);
   await db.delete(shots).where(eq(shots.id, id));
+
+  await createAuditLog({
+    actorType: "admin",
+    actorId: session.user.id,
+    actorEmail: session.user.email,
+    actorRole: session.user.role as any,
+    action: "shot.delete",
+    entityType: "shot",
+    entityId: id,
+  });
+
   revalidatePath("/admin/shots");
 }
