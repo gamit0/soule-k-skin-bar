@@ -27,43 +27,45 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!email || !password) return null;
 
-        // Check admin users FIRST (they have elevated permissions)
-        const admin = await db.query.adminUsers.findFirst({
-          where: eq(adminUsers.email, email),
-        });
+        try {
+          // Check admin users FIRST (they have elevated permissions)
+          const admin = await db.query.adminUsers.findFirst({
+            where: eq(adminUsers.email, email),
+          });
 
-        if (admin && admin.password_hash) {
-          const isValid = await bcrypt.compare(password, admin.password_hash);
-          if (isValid) {
-            return {
-              id: admin.id,
-              email: admin.email || "",
-              name: admin.email || "",
-              role: admin.role || "support",
-              isAdmin: true
-            };
+          if (admin && admin.password_hash) {
+            const isValid = await bcrypt.compare(password, admin.password_hash);
+            if (isValid) {
+              return {
+                id: admin.id,
+                email: admin.email || "",
+                name: admin.email || "",
+                role: admin.role || "support",
+                isAdmin: true
+              };
+            }
           }
-        }
 
-        // Check customer (only if not an admin)
-        const customer = await db.query.customers.findFirst({
-          where: eq(customers.email, email),
-        });
+          // Check customer (only if not an admin)
+          const customer = await db.query.customers.findFirst({
+            where: eq(customers.email, email),
+          });
 
-        if (customer && customer.password_hash && customer.email) {
-          const isValid = await bcrypt.compare(password, customer.password_hash);
-          if (isValid) {
-            const role = customer.role === "super_admin" || customer.role === "editor" || customer.role === "support"
-              ? customer.role as "super_admin" | "editor" | "support"
-              : "customer";
-            return {
-              id: customer.id,
-              email: customer.email,
-              name: customer.name || customer.email,
-              role,
-              isAdmin: false
-            };
+          if (customer && customer.password_hash && customer.email) {
+            const isValid = await bcrypt.compare(password, customer.password_hash);
+            if (isValid) {
+              return {
+                id: customer.id,
+                email: customer.email,
+                name: customer.name || customer.email,
+                role: customer.role || "customer",
+                isAdmin: false
+              };
+            }
           }
+        } catch (error) {
+          console.error("Auth error:", error);
+          return null;
         }
 
         return null;
