@@ -21,8 +21,8 @@ export function Header() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   const count = items.reduce((sum, i) => sum + i.quantity, 0);
-  const userRole = (session?.user as any)?.role;
-  const isAdmin = (session?.user as any)?.isAdmin;
+  const userRole = session?.user?.role;
+  const isAdmin = session?.user?.isAdmin;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -115,14 +115,8 @@ export function Header() {
                     <p className="text-sm font-medium text-plum-ink">{session.user?.name || "Usuario"}</p>
                     <p className="text-xs text-plum-ink/60 truncate">{session.user?.email}</p>
                     {userRole && (
-                      <span className="mt-1 inline-block px-2 py-0.5 text-[0.55rem] font-semibold uppercase tracking-wide rounded-full
-                        {userRole === 'super_admin' ? 'bg-wine/10 text-wine' :
-                         userRole === 'editor' ? 'bg-gold/10 text-gold' :
-                         userRole === 'support' ? 'bg-sage/10 text-sage' :
-                         'bg-plum-ink/10 text-plum-ink'}">
-                        {userRole === 'super_admin' ? 'Super Admin' :
-                         userRole === 'editor' ? 'Editor' :
-                         userRole === 'support' ? 'Soporte' : 'Cliente'}
+                      <span className={`mt-1 inline-block px-2 py-0.5 text-[0.55rem] font-semibold uppercase tracking-wide rounded-full ${userRole === 'super_admin' ? 'bg-wine/10 text-wine' : userRole === 'editor' ? 'bg-gold/10 text-gold' : userRole === 'support' ? 'bg-sage/10 text-sage' : 'bg-plum-ink/10 text-plum-ink'}`}>
+                        {userRole === 'super_admin' ? 'Super Admin' : userRole === 'editor' ? 'Editor' : userRole === 'support' ? 'Soporte' : 'Cliente'}
                       </span>
                     )}
                   </div>

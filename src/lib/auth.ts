@@ -27,24 +27,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!email || !password) return null;
 
-        // Check customer first
-        const customer = await db.query.customers.findFirst({
-          where: eq(customers.email, email),
-        });
-
-        if (customer && customer.password_hash) {
-          const isValid = await bcrypt.compare(password, customer.password_hash);
-          if (isValid) {
-            return {
-              id: customer.id,
-              email: customer.email,
-              name: customer.name,
-              role: customer.role || "customer"
-            };
-          }
-        }
-
-        // Check admin users
+        // Check admin users FIRST (they have elevated permissions)
         const admin = await db.query.adminUsers.findFirst({
           where: eq(adminUsers.email, email),
         });
@@ -58,6 +41,24 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               name: admin.email,
               role: admin.role || "support",
               isAdmin: true
+            };
+          }
+        }
+
+        // Check customer (only if not an admin)
+        const customer = await db.query.customers.findFirst({
+          where: eq(customers.email, email),
+        });
+
+        if (customer && customer.password_hash) {
+          const isValid = await bcrypt.compare(password, customer.password_hash);
+          if (isValid) {
+            return {
+              id: customer.id,
+              email: customer.email,
+              name: customer.name,
+              role: customer.role || "customer",
+              isAdmin: false
             };
           }
         }
