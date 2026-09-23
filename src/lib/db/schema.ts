@@ -226,6 +226,7 @@ export const customers = pgTable("customers", {
     .notNull()
     .default("0"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 export const quizResponses = pgTable("quiz_responses", {
@@ -309,6 +310,28 @@ export const wishlists = pgTable(
   },
   (t) => [primaryKey({ columns: [t.customerId, t.productId] })],
 );
+
+// ── Addresses ────────────────────────────────────────────────────────────
+export const addresses = pgTable("addresses", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  customerId: uuid("customer_id")
+    .notNull()
+    .references(() => customers.id, { onDelete: "cascade" }),
+  name: varchar("name", { length: 160 }).notNull(), // e.g., "Casa", "Oficina"
+  recipientName: varchar("recipient_name", { length: 160 }).notNull(),
+  phone: varchar("phone", { length: 40 }).notNull(),
+  street: varchar("street", { length: 200 }).notNull(),
+  exteriorNumber: varchar("exterior_number", { length: 20 }),
+  interiorNumber: varchar("interior_number", { length: 20 }),
+  neighborhood: varchar("neighborhood", { length: 160 }),
+  city: varchar("city", { length: 100 }).notNull(),
+  state: varchar("state", { length: 100 }).notNull(),
+  postalCode: varchar("postal_code", { length: 10 }).notNull(),
+  country: varchar("country", { length: 2 }).notNull().default("MX"),
+  isDefault: boolean("is_default").notNull().default(false),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
 
 // ── Admin ──────────────────────────────────────────────────────────────
 
@@ -422,6 +445,17 @@ export const orderItemsRelations = relations(orderItems, ({ one }) => ({
     fields: [orderItems.cocktailId],
     references: [cocktails.id],
   }),
+}));
+
+export const addressesRelations = relations(addresses, ({ one }) => ({
+  customer: one(customers, {
+    fields: [addresses.customerId],
+    references: [customers.id],
+  }),
+}));
+
+export const customersRelations = relations(customers, ({ many }) => ({
+  addresses: many(addresses),
 }));
 
 // ── Analytics (Fase 12) ─────────────────────────────────────────────────
