@@ -1,0 +1,5 @@
+﻿
+> soule-k-skin-bar@0.1.0 typecheck
+> tsc --noEmit
+
+src/lib/audit-log.ts(53,26): error TS2532: Object is possibly 'undefined'.

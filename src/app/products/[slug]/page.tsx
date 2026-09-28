@@ -79,7 +79,7 @@ export default async function ProductDetailPage({
 
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
   const whatsappUrl = whatsappNumber
-    ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola Soule 💕 Quiero más información sobre ${product.name}`)}`
+    ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola Soule, quiero mas informacion sobre ${product.name}`)}`
     : null;
 
   const stepIcon = STEP_ICONS[product.routineStep] || "📋";
@@ -186,7 +186,7 @@ export default async function ProductDetailPage({
                     rel="noopener noreferrer"
                     className="btn btn-outline btn-md border-plum-ink/15 text-plum-ink hover:border-[#25d366] hover:text-[#25d366]"
                   >
-                    💬 Consultar por WhatsApp
+                    Consultar por WhatsApp
                   </a>
                 )}
               </div>

@@ -86,7 +86,7 @@ export function Header() {
         <div className="flex items-center gap-2 sm:gap-3">
           {/* WhatsApp CTA */}
           {(() => {
-            const whatsappUrl = generateWhatsAppInquiryUrl("Hola 💗 Quiero consultar sobre sus productos y Shots K-Beauty.");
+            const whatsappUrl = generateWhatsAppInquiryUrl("Hola, quiero consultar sobre sus productos y Shots K-Beauty.");
             return whatsappUrl ? (
               <a
                 href={whatsappUrl}
@@ -103,7 +103,7 @@ export function Header() {
               </a>
             ) : (
               <span className="hidden sm:inline-flex items-center gap-2 rounded-full bg-ivory/50 px-4 py-2 text-sm text-ivory/40 cursor-not-allowed">
-                💬 WhatsApp — pendiente de configuración
+                WhatsApp — pendiente de configuración
               </span>
             );
           })()}

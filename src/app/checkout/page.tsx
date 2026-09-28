@@ -112,11 +112,11 @@ export default function CheckoutPage() {
                   onClick={() => track("whatsapp_click", { source: "checkout" })}
                   className="w-full btn btn-lg inline-flex items-center justify-center rounded-full bg-[#25D366] px-6 py-4 text-sm font-bold text-white hover:bg-[#1EBE5D] transition-all active:scale-95 shadow-md cursor-pointer text-center"
                 >
-                  💬 Pedir por WhatsApp
+                  Pedir por WhatsApp
                 </a>
               ) : (
                 <div className="w-full inline-flex items-center justify-center rounded-full bg-ivory/10 px-6 py-4 text-sm text-ivory/40 cursor-not-allowed text-center">
-                  💬 WhatsApp — pendiente de configuración
+                  WhatsApp — pendiente de configuración
                 </div>
               );
             })()}

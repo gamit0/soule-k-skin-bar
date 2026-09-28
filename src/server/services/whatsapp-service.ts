@@ -44,32 +44,32 @@ export function generateWhatsAppCheckoutUrl(
   if (!phone) return null;
 
   const lines: string[] = [
-    "✨ *HOLA SOULE K SKIN BAR* 💕",
-    "Acabo de realizar mi *Diagnóstico K-Beauty* en la plataforma y quiero ordenar mi fórmula:",
+    "HOLA SOULE K SKIN BAR",
+    "Acabo de realizar mi Diagnostico K-Beauty en la plataforma y quiero ordenar mi formula:",
     "",
   ];
 
   if (data.diagnosticMood) {
-    lines.push(`🍸 *Mood de Piel:* ${data.diagnosticMood}`);
+    lines.push(`Mood de Piel: ${data.diagnosticMood}`);
   }
   if (data.recommendedShotName) {
-    lines.push(`🧪 *Shot de Tratamiento:* ${data.recommendedShotName}`);
+    lines.push(`Shot de Tratamiento: ${data.recommendedShotName}`);
   }
   if (data.cocktailName) {
-    lines.push(`🧴 *Cocktail Diario Base:* ${data.cocktailName}`);
+    lines.push(`Cocktail Diario Base: ${data.cocktailName}`);
   }
 
   lines.push("");
-  lines.push("🛍️ *Productos de mi Rutina:*");
+  lines.push("Productos de mi Rutina:");
   data.products.forEach((p, idx) => {
-    const brandPrefix = p.brand ? `${p.brand} — ` : "";
+    const brandPrefix = p.brand ? `${p.brand} - ` : "";
     lines.push(`${idx + 1}. ${brandPrefix}${p.name} ($${Number(p.price).toFixed(2)} MXN)`);
   });
 
   lines.push("");
-  lines.push(`💳 *Total Estimado:* $${data.total.toFixed(2)} MXN`);
+  lines.push(`Total Estimado: $${data.total.toFixed(2)} MXN`);
   lines.push("");
-  lines.push("¿Me podrían confirmar disponibilidad y los datos para realizar mi transferencia/pago? ✨");
+  lines.push("¿Me podrian confirmar disponibilidad y los datos para realizar mi transferencia/pago?");
 
   const message = lines.join("\n");
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
@@ -85,30 +85,30 @@ export function generateWhatsAppCartCheckoutUrl(
   const total = data.subtotal + shipping;
 
   const lines: string[] = [
-    "🛍️ *HOLA SOULE K SKIN BAR* 💕",
+    "HOLA SOULE K SKIN BAR",
     "Quiero proceder con la compra de los productos en mi carrito:",
     "",
   ];
 
   data.items.forEach((item, idx) => {
     lines.push(
-      `${idx + 1}. *${item.name}* x${item.quantity} — $${(item.price * item.quantity).toFixed(2)} MXN`
+      `${idx + 1}. ${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)} MXN`
     );
   });
 
   lines.push("");
-  lines.push(`💰 *Subtotal:* $${data.subtotal.toFixed(2)} MXN`);
+  lines.push(`Subtotal: $${data.subtotal.toFixed(2)} MXN`);
   lines.push(
-    `🚚 *Envío:* ${shipping === 0 ? "GRATIS 🎉" : `$${shipping.toFixed(2)} MXN`}`
+    `Envio: ${shipping === 0 ? "GRATIS" : `$${shipping.toFixed(2)} MXN`}`
   );
-  lines.push(`💳 *Total:* $${total.toFixed(2)} MXN`);
+  lines.push(`Total: $${total.toFixed(2)} MXN`);
   lines.push("");
 
   if (data.customerNote) {
-    lines.push(`📝 *Nota:* ${data.customerNote}`);
+    lines.push(`Nota: ${data.customerNote}`);
     lines.push("");
   }
-  lines.push("¿Me podrían indicar los pasos para completar mi pedido? ✨");
+  lines.push("¿Me podrian indicar los pasos para completar mi pedido?");
 
   const message = lines.join("\n");
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
@@ -118,7 +118,7 @@ export function generateWhatsAppInquiryUrl(text: string): string | null {
   const phone = getWhatsAppNumber();
   if (!phone) return null;
 
-  const message = `Hola Soule K Skin Bar 💕\n\n${text}`;
+  const message = `Hola Soule K Skin Bar\n\n${text}`;
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
 

@@ -585,7 +585,7 @@ export function DiagnosticResultView({
                 onClick={() => track("whatsapp_clicked", { source: "result_page" })}
                 className="inline-flex items-center justify-center rounded-full bg-[#25D366] px-7 py-3.5 text-sm font-bold text-white hover:bg-[#1EBE5D] transition-all duration-200 active:scale-95 shadow-md cursor-pointer"
               >
-                💬 Pedir por WhatsApp
+                Pedir por WhatsApp
               </a>
             )}
           </div>
