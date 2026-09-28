@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import { track } from "@/lib/track";
 import { useSession, signOut } from "next-auth/react";
+import { generateWhatsAppInquiryUrl } from "@/server/services/whatsapp-service";
 
 const NAV_LINKS = [
   { label: "Shots", href: "/shots" },
@@ -83,7 +84,29 @@ export function Header() {
 
         {/* Right actions */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Cart */}
+          {/* WhatsApp CTA */}
+          {(() => {
+            const whatsappUrl = generateWhatsAppInquiryUrl("Hola 💗 Quiero consultar sobre sus productos y Shots K-Beauty.");
+            return whatsappUrl ? (
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => track("whatsapp_click", { source: "header" })}
+                className="hidden sm:inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1EBE5D] transition-all active:scale-95 shadow-md"
+                aria-label="Contactar por WhatsApp"
+              >
+                <span className="w-5 h-5">
+                  <svg viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.476-1.653-1.688-.173-.213-.028-.318.13-.363.13-.043.298-.073.446-.1.149-.027.758.213 1.01.688.279.529 1.07 1.825 1.233 2.013.148.173.198.333.198.464 0 .133-.053.3-.19.464-.149.174-.673.558-1.093 1.05-.409.473-.86 1.014-1.115 1.327-.27.324-.404.454-.515.454h-.465c-.148 0-.333-.04-.532-.16-.213-.12-.437-.307-.51-.533-.087-.244-.17-.386-.19-.423-.028-.047-.123-.094-.213-.158-.073-.047-.173-.094-.267-.117-.306-.08-.833-.183-1.306-.654-.433-.43-.654-.715-.75-.846-.098-.133-.19-.26-.19-.394 0-.244.15-.404.243-.506.105-.112.306-.414.688-.632.397-.23 1.394-.96 1.967-1.33.534-.343 1.168-.654 1.62-.864.444-.209.844-.297 1.056-.312.227-.01.45.037.792.352.27.253.482.586.535.843.048.24-.053.413-.214.573-.16.158-.497.486-.793.826-.278.32-.663.725-1.035 1.285-.357.535-.673 1.023-.85 1.33-.178.307-.24.43-.315.43h-.545c-.087 0-.173-.013-.243-.04-.214-.093-.428-.346-.51-.623-.067-.233-.01-.343.06-.46.06-.106.17-.253.31-.414.149-.16.356-.377.48-.613.123-.232.15-.354.043-.493-.13-.173-.482-.463-.872-.753-.38-.282-.69-.56-.923-.763-.233-.202-.432-.404-.515-.597-.083-.183-.06-.22.007-.312.08-.106.29-.307.62-.6.34-.307.85-.777 1.113-1.137.273-.363.446-.643.533-.843.09-.198.09-.333.043-.423-.06-.123-.16-.2-.253-.272-.07-.073-.14-.117-.213-.117-.173 0-.356.086-.47.232-.113.14-.18.26-.273.363-.09.094-.19.15-.3.15h-.465c-.133 0-.267-.026-.373-.073-.106-.047-.18-.11-.243-.16-.067-.047-.12-.08-.173-.093-.19-.054-.703-.28-1.212-.71-.644-.535-1.058-1.06-1.17-1.19-.112-.123-.17-.149-.25-.133h-.373z"/></svg>
+                </span>
+                <span className="hidden sm:inline">WhatsApp</span>
+              </a>
+            ) : (
+              <span className="hidden sm:inline-flex items-center gap-2 rounded-full bg-ivory/50 px-4 py-2 text-sm text-ivory/40 cursor-not-allowed">
+                💬 WhatsApp — pendiente de configuración
+              </span>
+            );
+          })()}
           <Link
             href="/cart"
             aria-label={`Carrito, ${count} productos`}

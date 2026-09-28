@@ -7,6 +7,9 @@ import { Footer } from "@/components/marketing/footer";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { PaymentForm } from "@/components/checkout/payment-form";
+import { generateWhatsAppCartCheckoutUrl } from "@/server/services/whatsapp-service";
+import { calcTotal } from "@/lib/shipping";
+import { track } from "@/lib/track";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "");
 
@@ -90,6 +93,34 @@ export default function CheckoutPage() {
           </div>
 
           {error && <p className="mt-4 text-sm text-wine">{error}</p>}
+
+          <div className="mt-6">
+            {(() => {
+              const whatsappUrl = generateWhatsAppCartCheckoutUrl({
+                items: items.map((i) => ({
+                  name: i.name,
+                  quantity: i.quantity,
+                  price: i.price,
+                })),
+                subtotal,
+              });
+              return whatsappUrl ? (
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => track("whatsapp_click", { source: "checkout" })}
+                  className="w-full btn btn-lg inline-flex items-center justify-center rounded-full bg-[#25D366] px-6 py-4 text-sm font-bold text-white hover:bg-[#1EBE5D] transition-all active:scale-95 shadow-md cursor-pointer text-center"
+                >
+                  💬 Pedir por WhatsApp
+                </a>
+              ) : (
+                <div className="w-full inline-flex items-center justify-center rounded-full bg-ivory/10 px-6 py-4 text-sm text-ivory/40 cursor-not-allowed text-center">
+                  💬 WhatsApp — pendiente de configuración
+                </div>
+              );
+            })()}
+          </div>
 
           {!clientSecret ? (
             <button
